@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>两级消息守卫</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Flowchart · Gateway</p>
+    <h1>两级消息守卫</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 572" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="two-level-guards-title two-level-guards-desc">
+        <title id="two-level-guards-title">两级消息守卫</title>
+        <desc id="two-level-guards-desc">Adapter 先拦截同会话竞态，Gateway 再区分运行状态、特殊命令和普通中断语义。</desc>
+
+      <defs>
+        <marker id="two-level-guards-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="two-level-guards-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="two-level-guards-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="572" fill="#f5f5f5"/>
+
+        <g>
+          <rect x="32" y="48" width="496" height="484" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="56" width="112" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="104" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">ADAPTER GUARD</text>
+        </g>
+        <g>
+          <rect x="548" y="48" width="620" height="484" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="564" y="56" width="112" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="620" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">GATEWAY GUARD</text>
+        </g><path d="M 216,320 L 280,320" fill="none" stroke="#eb6c36" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow-accent)"/>
+<path d="M 340,260 L 340,144 Q 340,136 348,136 L 472,136" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow)"/>
+<path d="M 576,176 L 576,212 Q 576,220 584,220 L 612,220 Q 620,220 620,228 L 620,252" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow)"/>
+<path d="M 400,320 L 536,320" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow)"/>
+<path d="M 704,320 L 760,320" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow)"/>
+<path d="M 820,260 L 820,192 Q 820,184 828,184 L 976,184" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow)"/>
+<path d="M 820,380 L 820,412 Q 820,420 828,420 L 976,420" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow)"/>
+<path d="M 620,388 L 620,468" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#two-level-guards-arrow)"/>
+        <g>
+          <rect x="384" y="112" width="48" height="16" rx="4" fill="#f5f5f5"/>
+          <text x="408" y="124" fill="#4f5d75" font-size="12"
+                font-family="'Geist Mono',monospace" text-anchor="middle"
+                letter-spacing=".04em">是</text>
+        </g>
+
+        <g>
+          <rect x="444" y="296" width="48" height="16" rx="4" fill="#f5f5f5"/>
+          <text x="468" y="308" fill="#4f5d75" font-size="12"
+                font-family="'Geist Mono',monospace" text-anchor="middle"
+                letter-spacing=".04em">否</text>
+        </g>
+
+        <g>
+          <rect x="876" y="160" width="48" height="16" rx="4" fill="#f5f5f5"/>
+          <text x="900" y="172" fill="#4f5d75" font-size="12"
+                font-family="'Geist Mono',monospace" text-anchor="middle"
+                letter-spacing=".04em">是</text>
+        </g>
+
+        <g>
+          <rect x="876" y="396" width="48" height="16" rx="4" fill="#f5f5f5"/>
+          <text x="900" y="408" fill="#4f5d75" font-size="12"
+                font-family="'Geist Mono',monospace" text-anchor="middle"
+                letter-spacing=".04em">否</text>
+        </g>
+
+        <g>
+          <rect x="628" y="424" width="48" height="16" rx="4" fill="#f5f5f5"/>
+          <text x="636" y="436" fill="#4f5d75" font-size="12"
+                font-family="'Geist Mono',monospace" text-anchor="start"
+                letter-spacing=".04em">未运行</text>
+        </g>
+        <g>
+          <rect x="48" y="280" width="168" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="48" y="280" width="168" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="60" y="288" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="84" y="296" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">EVENT</text>
+          <text x="132" y="328" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="132" dy="0">新消息</tspan></text>
+          <text x="132" y="348" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="132" dy="0">same session</tspan></text>
+        </g>
+
+        <g>
+          <polygon points="340,260 400,320 340,380 280,320" fill="rgba(235,108,54,0.08)"
+                   stroke="#eb6c36" stroke-width="1.2"/>
+          <text x="340" y="324" fill="#2d3142" font-size="16" font-weight="600"
+                font-family="'Geist',sans-serif" text-anchor="middle">活跃会话？</text>
+        </g>
+
+        <g>
+          <rect x="472" y="96" width="208" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="472" y="96" width="208" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="484" y="104" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="508" y="112" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">QUEUE</text>
+          <text x="576" y="144" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="576" dy="0">Pending Queue</tspan></text>
+          <text x="576" y="164" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="576" dy="0">set interrupt</tspan></text>
+        </g>
+
+        <g>
+          <polygon points="620,252 704,320 620,388 536,320" fill="#ffffff"
+                   stroke="#2d3142" stroke-width="1.2"/>
+          <text x="620" y="324" fill="#2d3142" font-size="16" font-weight="600"
+                font-family="'Geist',sans-serif" text-anchor="middle">Agent 运行中？</text>
+        </g>
+
+        <g>
+          <polygon points="820,260 880,320 820,380 760,320" fill="#ffffff"
+                   stroke="#2d3142" stroke-width="1.2"/>
+          <text x="820" y="324" fill="#2d3142" font-size="16" font-weight="600"
+                font-family="'Geist',sans-serif" text-anchor="middle">特殊命令？</text>
+        </g>
+
+        <g>
+          <rect x="976" y="144" width="168" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="976" y="144" width="168" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="988" y="152" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="1008" y="160" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CMD</text>
+          <text x="1060" y="192" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1060" dy="0">/stop /approve</tspan></text>
+          <text x="1060" y="212" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1060" dy="0">允许穿透</tspan></text>
+        </g>
+
+        <g>
+          <rect x="976" y="380" width="168" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="976" y="380" width="168" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="988" y="388" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="1008" y="396" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">INT</text>
+          <text x="1060" y="428" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1060" dy="0">中断当前推理</tspan></text>
+          <text x="1060" y="448" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1060" dy="0">普通消息 steer</tspan></text>
+        </g>
+
+        <g>
+          <rect x="512" y="468" width="216" height="72" rx="8" fill="#f5f5f5"/>
+          <rect x="512" y="468" width="216" height="72" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="524" y="476" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="544" y="484" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">NEW</text>
+          <text x="620" y="512" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="620" dy="0">创建 AIAgent</tspan></text>
+          <text x="620" y="532" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="620" dy="0">无并发写入</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

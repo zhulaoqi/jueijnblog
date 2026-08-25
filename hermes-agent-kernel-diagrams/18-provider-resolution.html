@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Provider 分发解析</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Flowchart · Provider</p>
+    <h1>Provider 分发解析</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 496" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="provider-resolution-title provider-resolution-desc">
+        <title id="provider-resolution-title">Provider 分发解析</title>
+        <desc id="provider-resolution-desc">Provider Runtime 按明确优先级解析配置，并分别产出 API 模式、凭据和端点元数据。</desc>
+
+      <defs>
+        <marker id="provider-resolution-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="provider-resolution-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="provider-resolution-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="496" fill="#f5f5f5"/>
+<path d="M 288,268 L 400,268" fill="none" stroke="#eb6c36" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provider-resolution-arrow-accent)"/>
+<path d="M 680,244 L 752,244 Q 760,244 760,236 L 760,144 Q 760,136 768,136 L 872,136" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provider-resolution-arrow)"/>
+<path d="M 680,268 L 872,268" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provider-resolution-arrow)"/>
+<path d="M 680,292 L 752,292 Q 760,292 760,300 L 760,392 Q 760,400 768,400 L 872,400" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#provider-resolution-arrow)"/>
+        <g>
+          <rect x="48" y="188" width="240" height="160" rx="8" fill="#f5f5f5"/>
+          <rect x="48" y="188" width="240" height="160" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="60" y="196" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="84" y="204" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">INPUT</text>
+          <text x="168" y="260" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="168" dy="0">配置优先级</tspan></text>
+          <text x="168" y="280" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="168" dy="0">1 运行时参数</tspan><tspan x="168" dy="16">2 config · 3 env</tspan><tspan x="168" dy="16">4 默认 / 自动识别</tspan></text>
+        </g>
+
+        <g>
+          <rect x="400" y="212" width="280" height="112" rx="8" fill="#f5f5f5"/>
+          <rect x="400" y="212" width="280" height="112" rx="8" fill="rgba(235,108,54,0.08)"
+                stroke="#eb6c36" stroke-width="1.2"/>
+          <rect x="412" y="220" width="64" height="12" rx="4"
+                fill="transparent" stroke="#eb6c36" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="444" y="228" fill="#eb6c36" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">RUNTIME</text>
+          <text x="540" y="276" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="540" dy="0">Provider Runtime</tspan></text>
+          <text x="540" y="296" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="540" dy="0">解析 provider + model</tspan></text>
+        </g>
+
+        <g>
+          <rect x="872" y="96" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="872" y="96" width="240" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="884" y="104" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="904" y="112" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">MODE</text>
+          <text x="992" y="144" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="992" dy="0">api_mode</tspan></text>
+          <text x="992" y="164" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="992" dy="0">chat · responses</tspan></text>
+        </g>
+
+        <g>
+          <rect x="872" y="228" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="872" y="228" width="240" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="884" y="236" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="904" y="244" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">AUTH</text>
+          <text x="992" y="276" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="992" dy="0">credentials</tspan></text>
+          <text x="992" y="296" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="992" dy="0">key · token</tspan></text>
+        </g>
+
+        <g>
+          <rect x="872" y="360" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="872" y="360" width="240" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="884" y="368" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="916" y="376" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">ENDPOINT</text>
+          <text x="992" y="408" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="992" dy="0">endpoint</tspan></text>
+          <text x="992" y="428" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="992" dy="0">base_url · headers</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Run 是 Agent 可观测性的根对象</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Tree · Observability</p>
+    <h1>Run 是 Agent 可观测性的根对象</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="observability-run-title observability-run-desc">
+        <title id="observability-run-title">Run 是 Agent 可观测性的根对象</title>
+        <desc id="observability-run-desc">Hermes 当前记录会话、消息、工具错误、用量成本与父子血缘；更细的控制 Span 和可重放标识属于成熟系统扩展。</desc>
+
+      <defs>
+        <marker id="observability-run-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="observability-run-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="observability-run-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="500" fill="#f5f5f5"/>
+
+        <g>
+          <rect x="32" y="196" width="704" height="264" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="204" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="96" y="220" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">HERMES 当前记录</text>
+        </g>
+        <g>
+          <rect x="760" y="196" width="408" height="264" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="776" y="204" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="824" y="220" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">成熟系统扩展</text>
+        </g><path d="M 560,132 L 560,160 Q 560,168 552,168 L 392,168 Q 384,168 384,176 L 384,232" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 640,132 L 640,160 Q 640,168 648,168 L 964,168 Q 972,168 972,176 L 972,232" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 152,232 H 616" fill="none" stroke="#4f5d75" stroke-width="1.4"/>
+<path d="M 872,232 H 1072" fill="none" stroke="#4f5d75" stroke-width="1.4"/>
+<path d="M 152,232 L 152,268" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#observability-run-arrow)"/>
+<path d="M 384,232 L 384,268" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#observability-run-arrow)"/>
+<path d="M 616,232 L 616,268" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#observability-run-arrow)"/>
+<path d="M 872,232 L 872,268" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4" marker-end="url(#observability-run-arrow)"/>
+<path d="M 1072,232 L 1072,268" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4" marker-end="url(#observability-run-arrow)"/>
+        <g>
+          <rect x="440" y="48" width="320" height="84" rx="8" fill="#f5f5f5"/>
+          <rect x="440" y="48" width="320" height="84" rx="8" fill="rgba(235,108,54,0.08)"
+                stroke="#eb6c36" stroke-width="1.2"/>
+          <rect x="452" y="56" width="40" height="12" rx="4"
+                fill="transparent" stroke="#eb6c36" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="472" y="64" fill="#eb6c36" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">RUN</text>
+          <text x="600" y="96" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="600" dy="0">Agent Run</tspan></text>
+          <text x="600" y="116" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="600" dy="0">当前记录 + 扩展建议</tspan></text>
+        </g>
+
+        <g>
+          <rect x="48" y="268" width="208" height="144" rx="8" fill="#f5f5f5"/>
+          <rect x="48" y="268" width="208" height="144" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="60" y="276" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="92" y="284" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CURRENT</text>
+          <text x="152" y="348" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="152" dy="0">Session / Message</tspan></text>
+          <text x="152" y="368" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="152" dy="0">会话 · 消息</tspan></text>
+        </g>
+
+        <g>
+          <rect x="280" y="268" width="208" height="144" rx="8" fill="#f5f5f5"/>
+          <rect x="280" y="268" width="208" height="144" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="292" y="276" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="324" y="284" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CURRENT</text>
+          <text x="384" y="348" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="384" dy="0">Tool Call / Error</tspan></text>
+          <text x="384" y="368" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="384" dy="0">调用 · 结果 · 错误</tspan></text>
+        </g>
+
+        <g>
+          <rect x="512" y="268" width="208" height="144" rx="8" fill="#f5f5f5"/>
+          <rect x="512" y="268" width="208" height="144" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="524" y="276" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="556" y="284" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CURRENT</text>
+          <text x="616" y="332" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="616" dy="0">Usage / Lineage</tspan></text>
+          <text x="616" y="352" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="616" dy="0">Token · Cache</tspan><tspan x="616" dy="16">Provider · Cost</tspan><tspan x="616" dy="16">父子 Session 血缘</tspan></text>
+        </g>
+
+        <g>
+          <rect x="784" y="268" width="176" height="144" rx="8" fill="#f5f5f5"/>
+          <rect x="784" y="268" width="176" height="144" rx="8" fill="rgba(45,49,66,0.02)"
+                stroke="rgba(45,49,66,0.30)" stroke-width="1.2" stroke-dasharray="4,4"/>
+          <rect x="796" y="276" width="40" height="12" rx="4"
+                fill="transparent" stroke="#7a8399" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="816" y="284" fill="#7a8399" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">EXT</text>
+          <text x="872" y="340" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="872" dy="0">Control Spans</tspan></text>
+          <text x="872" y="360" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="872" dy="0">Approval · Retry</tspan><tspan x="872" dy="16">Compression</tspan></text>
+        </g>
+
+        <g>
+          <rect x="984" y="268" width="176" height="144" rx="8" fill="#f5f5f5"/>
+          <rect x="984" y="268" width="176" height="144" rx="8" fill="rgba(45,49,66,0.02)"
+                stroke="rgba(45,49,66,0.30)" stroke-width="1.2" stroke-dasharray="4,4"/>
+          <rect x="996" y="276" width="40" height="12" rx="4"
+                fill="transparent" stroke="#7a8399" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="1016" y="284" fill="#7a8399" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">EXT</text>
+          <text x="1072" y="340" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1072" dy="0">Trace Fidelity</tspan></text>
+          <text x="1072" y="360" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1072" dy="0">Trace / Span</tspan><tspan x="1072" dy="16">hash / replay</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

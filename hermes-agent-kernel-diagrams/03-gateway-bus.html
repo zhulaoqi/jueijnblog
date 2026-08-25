@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>多端输入规范化为统一 MessageEvent</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Architecture · Gateway</p>
+    <h1>多端输入规范化为统一 MessageEvent</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 560" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="gateway-bus-title gateway-bus-desc">
+        <title id="gateway-bus-title">多端输入规范化为统一 MessageEvent</title>
+        <desc id="gateway-bus-desc">四组平台适配器独立接入 MessageEvent，再由会话、生命周期、回调和投递模块协调。</desc>
+
+      <defs>
+        <marker id="gateway-bus-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="gateway-bus-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="gateway-bus-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="560" fill="#f5f5f5"/>
+
+        <g>
+          <rect x="40" y="36" width="1120" height="140" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="56" y="44" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="104" y="60" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">平台适配器</text>
+        </g>
+        <g>
+          <rect x="40" y="208" width="1120" height="144" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="56" y="216" width="128" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="120" y="232" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">CANONICAL EVENT</text>
+        </g>
+        <g>
+          <rect x="40" y="388" width="1120" height="132" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="56" y="396" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="104" y="412" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">GATEWAY 协调</text>
+        </g><path d="M 180,140 L 180,228" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow-link)"/>
+<path d="M 460,140 L 460,228" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow-link)"/>
+<path d="M 740,140 L 740,228" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow-link)"/>
+<path d="M 1020,140 L 1020,228" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow-link)"/>
+<path d="M 180,320 L 180,420" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow)"/>
+<path d="M 460,320 L 460,420" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow)"/>
+<path d="M 740,320 L 740,420" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow)"/>
+<path d="M 1020,320 L 1020,420" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gateway-bus-arrow)"/>
+        <g>
+          <rect x="80" y="72" width="200" height="68" rx="8" fill="#f5f5f5"/>
+          <rect x="80" y="72" width="200" height="68" rx="8" fill="rgba(79,93,117,0.08)"
+                stroke="#7a8399" stroke-width="1.2"/>
+          <rect x="92" y="80" width="64" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="124" y="88" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">PLATFORM</text>
+          <text x="180" y="112" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="180" dy="0">Telegram / Slack</tspan></text>
+          <text x="180" y="132" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="180" dy="0">raw event</tspan></text>
+        </g>
+
+        <g>
+          <rect x="360" y="72" width="200" height="68" rx="8" fill="#f5f5f5"/>
+          <rect x="360" y="72" width="200" height="68" rx="8" fill="rgba(79,93,117,0.08)"
+                stroke="#7a8399" stroke-width="1.2"/>
+          <rect x="372" y="80" width="64" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="404" y="88" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">PLATFORM</text>
+          <text x="460" y="112" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="460" dy="0">Discord / Email</tspan></text>
+          <text x="460" y="132" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="460" dy="0">raw event</tspan></text>
+        </g>
+
+        <g>
+          <rect x="640" y="72" width="200" height="68" rx="8" fill="#f5f5f5"/>
+          <rect x="640" y="72" width="200" height="68" rx="8" fill="rgba(79,93,117,0.08)"
+                stroke="#7a8399" stroke-width="1.2"/>
+          <rect x="652" y="80" width="64" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="684" y="88" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">PLATFORM</text>
+          <text x="740" y="112" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="740" dy="0">ACP / TUI</tspan></text>
+          <text x="740" y="132" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="740" dy="0">JSON-RPC</tspan></text>
+        </g>
+
+        <g>
+          <rect x="920" y="72" width="200" height="68" rx="8" fill="#f5f5f5"/>
+          <rect x="920" y="72" width="200" height="68" rx="8" fill="rgba(79,93,117,0.08)"
+                stroke="#7a8399" stroke-width="1.2"/>
+          <rect x="932" y="80" width="64" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="964" y="88" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">PLATFORM</text>
+          <text x="1020" y="112" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1020" dy="0">HTTP / Cron</tspan></text>
+          <text x="1020" y="132" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1020" dy="0">request · tick</tspan></text>
+        </g>
+
+        <g>
+          <rect x="80" y="228" width="1040" height="92" rx="8" fill="#f5f5f5"/>
+          <rect x="80" y="228" width="1040" height="92" rx="8" fill="rgba(235,108,54,0.08)"
+                stroke="#eb6c36" stroke-width="1.2"/>
+          <rect x="92" y="236" width="48" height="12" rx="4"
+                fill="transparent" stroke="#eb6c36" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="116" y="244" fill="#eb6c36" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">EVENT</text>
+          <text x="600" y="280" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="600" dy="0">MessageEvent</tspan></text>
+          <text x="600" y="300" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="600" dy="0">统一会话、发送者、内容与投递目标</tspan></text>
+        </g>
+
+        <g>
+          <rect x="80" y="420" width="200" height="72" rx="8" fill="#f5f5f5"/>
+          <rect x="80" y="420" width="200" height="72" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="92" y="428" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="116" y="436" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">ROUTE</text>
+          <text x="180" y="464" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="180" dy="0">Session Router</tspan></text>
+          <text x="180" y="484" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="180" dy="0">定位会话</tspan></text>
+        </g>
+
+        <g>
+          <rect x="360" y="420" width="200" height="72" rx="8" fill="#f5f5f5"/>
+          <rect x="360" y="420" width="200" height="72" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="372" y="428" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="392" y="436" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">LIFE</text>
+          <text x="460" y="464" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="460" dy="0">Lifecycle</tspan></text>
+          <text x="460" y="484" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="460" dy="0">创建 · 中断</tspan></text>
+        </g>
+
+        <g>
+          <rect x="640" y="420" width="200" height="72" rx="8" fill="#f5f5f5"/>
+          <rect x="640" y="420" width="200" height="72" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="652" y="428" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="684" y="436" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CALLBACK</text>
+          <text x="740" y="464" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="740" dy="0">Event Bridge</tspan></text>
+          <text x="740" y="484" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="740" dy="0">进度 · 审批</tspan></text>
+        </g>
+
+        <g>
+          <rect x="920" y="420" width="200" height="72" rx="8" fill="#f5f5f5"/>
+          <rect x="920" y="420" width="200" height="72" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="932" y="428" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="964" y="436" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">DELIVERY</text>
+          <text x="1020" y="464" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1020" dy="0">Delivery</tspan></text>
+          <text x="1020" y="484" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1020" dy="0">多端出站</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

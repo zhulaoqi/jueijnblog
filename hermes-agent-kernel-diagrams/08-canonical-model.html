@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Canonical Model：协议边缘适配，内核保持统一</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Architecture · Messages</p>
+    <h1>Canonical Model：协议边缘适配，内核保持统一</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 544" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="canonical-model-title canonical-model-desc">
+        <title id="canonical-model-title">Canonical Model：协议边缘适配，内核保持统一</title>
+        <desc id="canonical-model-desc">三类宿主协议通过独立端口汇入 Canonical Message，再由三个独立端口适配到不同 Provider API。</desc>
+
+      <defs>
+        <marker id="canonical-model-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="canonical-model-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="canonical-model-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="544" fill="#f5f5f5"/>
+
+        <g>
+          <rect x="32" y="48" width="304" height="448" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="56" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="96" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">外部输入协议</text>
+        </g>
+        <g>
+          <rect x="412" y="48" width="376" height="448" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="428" y="56" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="476" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">内部规范模型</text>
+        </g>
+        <g>
+          <rect x="864" y="48" width="304" height="448" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="880" y="56" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="928" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">PROVIDER API</text>
+        </g><path d="M 296,144 L 360,144 Q 368,144 368,152 L 368,236 Q 368,244 376,244 L 460,244" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#canonical-model-arrow-link)"/>
+<path d="M 296,272 L 380,272 Q 388,272 388,280 L 388,280 Q 388,288 396,288 L 460,288" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#canonical-model-arrow-link)"/>
+<path d="M 296,400 L 360,400 Q 368,400 368,392 L 368,340 Q 368,332 376,332 L 460,332" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#canonical-model-arrow-link)"/>
+<path d="M 740,244 L 824,244 Q 832,244 832,236 L 832,152 Q 832,144 840,144 L 904,144" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#canonical-model-arrow)"/>
+<path d="M 740,288 L 804,288 Q 812,288 812,280 L 812,280 Q 812,272 820,272 L 904,272" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#canonical-model-arrow)"/>
+<path d="M 740,332 L 824,332 Q 832,332 832,340 L 832,392 Q 832,400 840,400 L 904,400" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#canonical-model-arrow)"/>
+        <g>
+          <rect x="72" y="104" width="224" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="72" y="104" width="224" height="80" rx="8" fill="rgba(79,93,117,0.08)"
+                stroke="#7a8399" stroke-width="1.2"/>
+          <rect x="84" y="112" width="40" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="104" y="120" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">HOST</text>
+          <text x="184" y="152" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="184" dy="0">Gateway / CLI</tspan></text>
+          <text x="184" y="172" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="184" dy="0">MessageEvent</tspan></text>
+        </g>
+
+        <g>
+          <rect x="72" y="232" width="224" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="72" y="232" width="224" height="80" rx="8" fill="rgba(79,93,117,0.08)"
+                stroke="#7a8399" stroke-width="1.2"/>
+          <rect x="84" y="240" width="40" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="104" y="248" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">HOST</text>
+          <text x="184" y="280" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="184" dy="0">ACP / IDE</tspan></text>
+          <text x="184" y="300" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="184" dy="0">JSON-RPC</tspan></text>
+        </g>
+
+        <g>
+          <rect x="72" y="360" width="224" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="72" y="360" width="224" height="80" rx="8" fill="rgba(79,93,117,0.08)"
+                stroke="#7a8399" stroke-width="1.2"/>
+          <rect x="84" y="368" width="40" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="104" y="376" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">HOST</text>
+          <text x="184" y="408" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="184" dy="0">HTTP / SDK</tspan></text>
+          <text x="184" y="428" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="184" dy="0">request</tspan></text>
+        </g>
+
+        <g>
+          <rect x="460" y="196" width="280" height="184" rx="8" fill="#f5f5f5"/>
+          <rect x="460" y="196" width="280" height="184" rx="8" fill="rgba(235,108,54,0.08)"
+                stroke="#eb6c36" stroke-width="1.2"/>
+          <rect x="472" y="204" width="48" height="12" rx="4"
+                fill="transparent" stroke="#eb6c36" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="496" y="212" fill="#eb6c36" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CANON</text>
+          <text x="600" y="288" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="600" dy="0">Canonical Message</tspan></text>
+          <text x="600" y="308" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="600" dy="0">system · user</tspan><tspan x="600" dy="16">assistant · tool</tspan></text>
+        </g>
+
+        <g>
+          <rect x="904" y="104" width="224" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="904" y="104" width="224" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="916" y="112" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="936" y="120" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">API</text>
+          <text x="1016" y="152" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1016" dy="0">Chat Completions</tspan></text>
+          <text x="1016" y="172" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1016" dy="0">OpenAI</tspan></text>
+        </g>
+
+        <g>
+          <rect x="904" y="232" width="224" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="904" y="232" width="224" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="916" y="240" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="936" y="248" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">API</text>
+          <text x="1016" y="280" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1016" dy="0">Responses</tspan></text>
+          <text x="1016" y="300" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1016" dy="0">Codex</tspan></text>
+        </g>
+
+        <g>
+          <rect x="904" y="360" width="224" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="904" y="360" width="224" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="916" y="368" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="936" y="376" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">API</text>
+          <text x="1016" y="408" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1016" dy="0">Messages</tspan></text>
+          <text x="1016" y="428" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1016" dy="0">Anthropic</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

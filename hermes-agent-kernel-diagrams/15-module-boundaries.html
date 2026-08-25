@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>自研 Agent 内核模块边界</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Architecture · Kernel</p>
+    <h1>自研 Agent 内核模块边界</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="module-boundaries-title module-boundaries-desc">
+        <title id="module-boundaries-title">自研 Agent 内核模块边界</title>
+        <desc id="module-boundaries-desc">运行时核心只依赖消息、上下文、Provider、工具、状态与可观测接口，不直接依赖外部实现。</desc>
+
+      <defs>
+        <marker id="module-boundaries-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="module-boundaries-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="module-boundaries-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="540" fill="#f5f5f5"/>
+
+        <g>
+          <rect x="32" y="40" width="260" height="460" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="48" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="96" y="64" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">EDGE</text>
+        </g>
+
+        <g>
+          <rect x="316" y="40" width="340" height="460" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="332" y="48" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="380" y="64" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">RUNTIME CORE</text>
+        </g>
+
+        <g>
+          <rect x="680" y="40" width="488" height="284" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="696" y="48" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="744" y="64" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">CAPABILITIES</text>
+        </g>
+
+        <g>
+          <rect x="680" y="348" width="488" height="152" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="696" y="356" width="128" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="760" y="372" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">STATE &amp; OBSERVE</text>
+        </g><path d="M 252,156 L 364,156" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#module-boundaries-arrow-link)"/>
+<path d="M 252,388 L 324,388 Q 332,388 332,380 L 332,252 Q 332,244 340,244 L 364,244" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#module-boundaries-arrow-link)"/>
+<path d="M 604,200 L 720,200" fill="none" stroke="#eb6c36" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#module-boundaries-arrow-accent)"/>
+<path d="M 604,232 L 680,232 Q 688,232 688,240 L 688,276 Q 688,284 696,284 L 720,284" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#module-boundaries-arrow)"/>
+<path d="M 444,292 L 444,340 Q 444,348 452,348 L 804,348 Q 812,348 812,356 L 812,372" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#module-boundaries-arrow)"/>
+<path d="M 524,292 L 524,324 Q 524,332 532,332 L 1028,332 Q 1036,332 1036,340 L 1036,372" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#module-boundaries-arrow)"/>
+        <g>
+          <rect x="72" y="112" width="180" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="72" y="112" width="180" height="88" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="84" y="120" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="108" y="128" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">ENTRY</text>
+          <text x="160" y="164" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="160" dy="0">Entry Adapters</tspan></text>
+          <text x="160" y="184" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="160" dy="0">Gateway · ACP · API</tspan></text>
+        </g>
+
+        <g>
+          <rect x="72" y="344" width="180" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="72" y="344" width="180" height="88" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="84" y="352" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="108" y="360" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">EVENT</text>
+          <text x="160" y="396" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="160" dy="0">Canonical Events</tspan></text>
+          <text x="160" y="416" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="160" dy="0">messages.py</tspan></text>
+        </g>
+
+        <g>
+          <rect x="364" y="132" width="240" height="160" rx="8" fill="#f5f5f5"/>
+          <rect x="364" y="132" width="240" height="160" rx="8" fill="rgba(235,108,54,0.08)"
+                stroke="#eb6c36" stroke-width="1.2"/>
+          <rect x="376" y="140" width="40" height="12" rx="4"
+                fill="transparent" stroke="#eb6c36" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="396" y="148" fill="#eb6c36" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CORE</text>
+          <text x="484" y="212" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="484" dy="0">runtime.py</tspan></text>
+          <text x="484" y="232" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="484" dy="0">Run 状态机</tspan><tspan x="484" dy="16">只依赖接口</tspan></text>
+        </g>
+
+        <g>
+          <rect x="720" y="112" width="184" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="720" y="112" width="184" height="88" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="732" y="120" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="764" y="128" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CONTEXT</text>
+          <text x="812" y="164" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="812" dy="0">Context Engine</tspan></text>
+          <text x="812" y="184" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="812" dy="0">prompt · compress</tspan></text>
+        </g>
+
+        <g>
+          <rect x="944" y="112" width="184" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="944" y="112" width="184" height="88" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="956" y="120" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="988" y="128" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">PROVIDER</text>
+          <text x="1036" y="164" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1036" dy="0">Providers</tspan></text>
+          <text x="1036" y="184" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1036" dy="0">model APIs</tspan></text>
+        </g>
+
+        <g>
+          <rect x="720" y="240" width="184" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="720" y="240" width="184" height="88" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="732" y="248" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="756" y="256" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">TOOLS</text>
+          <text x="812" y="292" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="812" dy="0">Tools / MCP</tspan></text>
+          <text x="812" y="312" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="812" dy="0">capability</tspan></text>
+        </g>
+
+        <g>
+          <rect x="720" y="372" width="184" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="720" y="372" width="184" height="88" rx="8" fill="rgba(45,49,66,0.05)"
+                stroke="#4f5d75" stroke-width="1.2"/>
+          <rect x="732" y="380" width="48" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="756" y="388" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">STATE</text>
+          <text x="812" y="424" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="812" dy="0">State Store</tspan></text>
+          <text x="812" y="444" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="812" dy="0">session · memory</tspan></text>
+        </g>
+
+        <g>
+          <rect x="944" y="372" width="184" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="944" y="372" width="184" height="88" rx="8" fill="rgba(45,49,66,0.05)"
+                stroke="#4f5d75" stroke-width="1.2"/>
+          <rect x="956" y="380" width="48" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="980" y="388" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">TRACE</text>
+          <text x="1036" y="424" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1036" dy="0">Observability</tspan></text>
+          <text x="1036" y="444" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1036" dy="0">events · cost</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

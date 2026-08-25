@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>run_conversation：四阶段单轮分发</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Process · Agent Loop</p>
+    <h1>run_conversation：四阶段单轮分发</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 520" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="run-conversation-title run-conversation-desc">
+        <title id="run-conversation-title">run_conversation：四阶段单轮分发</title>
+        <desc id="run-conversation-desc">单轮运行依次完成准备、解析、模型与工具循环、持久化提交，其中工具结果明确回到模型。</desc>
+
+      <defs>
+        <marker id="run-conversation-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="run-conversation-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="run-conversation-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="520" fill="#f5f5f5"/>
+
+        <g>
+          <rect x="32" y="48" width="248" height="424" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="56" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="96" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">01 准备</text>
+        </g>
+
+        <g>
+          <rect x="304" y="48" width="248" height="424" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="320" y="56" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="368" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">02 解析</text>
+        </g>
+
+        <g>
+          <rect x="576" y="48" width="360" height="424" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="592" y="56" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="640" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">03 执行循环</text>
+        </g>
+
+        <g>
+          <rect x="960" y="48" width="208" height="424" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="976" y="56" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="1024" y="72" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">04 提交</text>
+        </g><path d="M 248,260 L 336,260" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#run-conversation-arrow)"/>
+<path d="M 520,260 L 560,260 Q 568,260 568,252 L 568,232 Q 568,224 576,224 L 620,224" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#run-conversation-arrow)"/>
+<path d="M 680,268 L 680,296 Q 680,304 672,304 L 672,304 Q 664,304 664,312 L 664,332" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#run-conversation-arrow)"/>
+<path d="M 736,372 L 768,372" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#run-conversation-arrow)"/>
+<path d="M 840,332 L 840,304 Q 840,296 840,288 L 840,268" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#run-conversation-arrow)"/>
+<path d="M 900,224 L 996,224" fill="none" stroke="#4f5d75" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#run-conversation-arrow)"/>
+        <g>
+          <rect x="52" y="84" width="32" height="24" rx="8" fill="rgba(45,49,66,0.08)"/>
+          <text x="68" y="100" fill="#4f5d75" font-size="12" font-weight="600"
+                font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+          <text x="96" y="104" fill="#4f5d75" font-size="16" font-weight="600"
+                font-family="'Geist',sans-serif">准备</text>
+        </g>
+
+        <g>
+          <rect x="324" y="84" width="32" height="24" rx="8" fill="rgba(45,49,66,0.08)"/>
+          <text x="340" y="100" fill="#4f5d75" font-size="12" font-weight="600"
+                font-family="'Geist Mono',monospace" text-anchor="middle">2</text>
+          <text x="368" y="104" fill="#4f5d75" font-size="16" font-weight="600"
+                font-family="'Geist',sans-serif">解析</text>
+        </g>
+
+        <g>
+          <rect x="596" y="84" width="32" height="24" rx="8" fill="rgba(45,49,66,0.08)"/>
+          <text x="612" y="100" fill="#4f5d75" font-size="12" font-weight="600"
+                font-family="'Geist Mono',monospace" text-anchor="middle">3</text>
+          <text x="640" y="104" fill="#4f5d75" font-size="16" font-weight="600"
+                font-family="'Geist',sans-serif">执行循环</text>
+        </g>
+
+        <g>
+          <rect x="980" y="84" width="32" height="24" rx="8" fill="rgba(45,49,66,0.08)"/>
+          <text x="996" y="100" fill="#4f5d75" font-size="12" font-weight="600"
+                font-family="'Geist Mono',monospace" text-anchor="middle">4</text>
+          <text x="1024" y="104" fill="#4f5d75" font-size="16" font-weight="600"
+                font-family="'Geist',sans-serif">提交</text>
+        </g>
+
+        <g>
+          <rect x="64" y="212" width="184" height="96" rx="8" fill="#f5f5f5"/>
+          <rect x="64" y="212" width="184" height="96" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="76" y="220" width="48" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="100" y="228" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">SETUP</text>
+          <text x="156" y="260" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="156" dy="0">会话准备</tspan></text>
+          <text x="156" y="280" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="156" dy="0">task/session</tspan><tspan x="156" dy="16">追加用户消息</tspan></text>
+        </g>
+
+        <g>
+          <rect x="336" y="212" width="184" height="96" rx="8" fill="#f5f5f5"/>
+          <rect x="336" y="212" width="184" height="96" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="348" y="220" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="380" y="228" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CONTEXT</text>
+          <text x="428" y="260" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="428" dy="0">解析上下文</tspan></text>
+          <text x="428" y="280" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="428" dy="0">Prompt · 压缩</tspan><tspan x="428" dy="16">Provider · 格式</tspan></text>
+        </g>
+
+        <g>
+          <rect x="620" y="180" width="280" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="620" y="180" width="280" height="88" rx="8" fill="rgba(235,108,54,0.08)"
+                stroke="#eb6c36" stroke-width="1.2"/>
+          <rect x="632" y="188" width="48" height="12" rx="4"
+                fill="transparent" stroke="#eb6c36" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="656" y="196" fill="#eb6c36" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">MODEL</text>
+          <text x="760" y="232" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="760" dy="0">模型输出解析</tspan></text>
+          <text x="760" y="252" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="760" dy="0">决策 · 可中断调用</tspan></text>
+        </g>
+
+        <g>
+          <rect x="592" y="332" width="144" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="592" y="332" width="144" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="604" y="340" width="40" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="624" y="348" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">TOOL</text>
+          <text x="664" y="380" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="664" dy="0">工具执行</tspan></text>
+          <text x="664" y="400" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="664" dy="0">dispatch · hook</tspan></text>
+        </g>
+
+        <g>
+          <rect x="768" y="332" width="144" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="768" y="332" width="144" height="80" rx="8" fill="rgba(45,49,66,0.05)"
+                stroke="#4f5d75" stroke-width="1.2"/>
+          <rect x="780" y="340" width="48" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="804" y="348" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">RESULT</text>
+          <text x="840" y="380" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="840" dy="0">Tool Result</tspan></text>
+          <text x="840" y="400" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="840" dy="0">role=tool</tspan></text>
+        </g>
+
+        <g>
+          <rect x="996" y="180" width="148" height="88" rx="8" fill="#f5f5f5"/>
+          <rect x="996" y="180" width="148" height="88" rx="8" fill="rgba(45,49,66,0.05)"
+                stroke="#4f5d75" stroke-width="1.2"/>
+          <rect x="1008" y="188" width="48" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="1032" y="196" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">COMMIT</text>
+          <text x="1072" y="224" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1072" dy="0">提交</tspan></text>
+          <text x="1072" y="244" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1072" dy="0">持久化</tspan><tspan x="1072" dy="16">Memory · 返回</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

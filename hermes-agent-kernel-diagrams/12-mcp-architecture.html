@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MCP 三方角色与 1:1 Client 连接</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:#f5f5f5;color:#2d3142}
+body{font-family:'Geist',system-ui,sans-serif;padding:32px 20px}
+.frame{width:min(1200px,100%);margin:0 auto}
+.eyebrow{margin:0 0 8px;font:500 12px/1.3 'Geist Mono',monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:#4f5d75}
+h1{margin:0 0 20px;font:400 32px/1.12 'Instrument Serif',serif;
+  letter-spacing:-.02em}
+.diagram-scroll{overflow-x:auto}
+svg{display:block;width:100%;min-width:880px;height:auto}
+@media(max-width:720px){body{padding:20px 12px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+  <main class="frame">
+    <p class="eyebrow">Architecture · MCP</p>
+    <h1>MCP 三方角色与 1:1 Client 连接</h1>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1200 556" xmlns="http://www.w3.org/2000/svg"
+           role="img" aria-labelledby="mcp-architecture-title mcp-architecture-desc">
+        <title id="mcp-architecture-title">MCP 三方角色与 1:1 Client 连接</title>
+        <desc id="mcp-architecture-desc">Hermes Host 维护三个独立 MCP Client，每个 Client 只连接对应的一个 MCP Server。</desc>
+
+      <defs>
+        <marker id="mcp-architecture-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+        </marker>
+        <marker id="mcp-architecture-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+        </marker>
+        <marker id="mcp-architecture-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+        </marker>
+      </defs>
+        <rect width="1200" height="556" fill="#f5f5f5"/>
+
+        <g>
+          <rect x="32" y="36" width="1136" height="140" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="44" width="96" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="96" y="60" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">HOST</text>
+        </g>
+        <g>
+          <rect x="32" y="204" width="1136" height="144" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="212" width="144" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="120" y="228" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">HOST 内 1:1 CLIENT</text>
+        </g>
+        <g>
+          <rect x="32" y="380" width="1136" height="140" rx="8" fill="rgba(45,49,66,0.03)"
+                stroke="rgba(45,49,66,0.12)" stroke-width=".8"/>
+          <rect x="48" y="388" width="160" height="20" rx="4" fill="#f5f5f5"/>
+          <text x="128" y="404" fill="#4f5d75"
+                font-size="12" font-weight="500" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".10em">EXTERNAL MCP SERVER</text>
+        </g><path d="M 536,144 L 536,176 Q 536,184 528,184 L 188,184 Q 180,184 180,192 L 180,232" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#mcp-architecture-arrow-link)"/>
+<path d="M 600,144 L 600,232" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#mcp-architecture-arrow-link)"/>
+<path d="M 664,144 L 664,176 Q 664,184 672,184 L 1012,184 Q 1020,184 1020,192 L 1020,232" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#mcp-architecture-arrow-link)"/>
+<path d="M 180,312 L 180,408" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#mcp-architecture-arrow-link)"/>
+<path d="M 600,312 L 600,408" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#mcp-architecture-arrow-link)"/>
+<path d="M 1020,312 L 1020,408" fill="none" stroke="#2e5aa8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#mcp-architecture-arrow-link)"/>
+        <g>
+          <rect x="480" y="72" width="240" height="72" rx="8" fill="#f5f5f5"/>
+          <rect x="480" y="72" width="240" height="72" rx="8" fill="rgba(235,108,54,0.08)"
+                stroke="#eb6c36" stroke-width="1.2"/>
+          <rect x="492" y="80" width="40" height="12" rx="4"
+                fill="transparent" stroke="#eb6c36" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="512" y="88" fill="#eb6c36" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">HOST</text>
+          <text x="600" y="116" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="600" dy="0">Hermes Host</tspan></text>
+          <text x="600" y="136" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="600" dy="0">Agent application</tspan></text>
+        </g>
+
+        <g>
+          <rect x="60" y="232" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="60" y="232" width="240" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="72" y="240" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="104" y="248" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CLIENT 1</text>
+          <text x="180" y="280" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="180" dy="0">GitHub Client</tspan></text>
+          <text x="180" y="300" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="180" dy="0">独立 JSON-RPC</tspan></text>
+        </g>
+
+        <g>
+          <rect x="480" y="232" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="480" y="232" width="240" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="492" y="240" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="524" y="248" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CLIENT 2</text>
+          <text x="600" y="280" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="600" dy="0">Database Client</tspan></text>
+          <text x="600" y="300" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="600" dy="0">独立 JSON-RPC</tspan></text>
+        </g>
+
+        <g>
+          <rect x="900" y="232" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="900" y="232" width="240" height="80" rx="8" fill="#ffffff"
+                stroke="#2d3142" stroke-width="1.2"/>
+          <rect x="912" y="240" width="64" height="12" rx="4"
+                fill="transparent" stroke="#2d3142" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="944" y="248" fill="#2d3142" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">CLIENT 3</text>
+          <text x="1020" y="280" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1020" dy="0">Browser Client</tspan></text>
+          <text x="1020" y="300" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1020" dy="0">独立 JSON-RPC</tspan></text>
+        </g>
+
+        <g>
+          <rect x="60" y="408" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="60" y="408" width="240" height="80" rx="8" fill="rgba(45,49,66,0.05)"
+                stroke="#4f5d75" stroke-width="1.2"/>
+          <rect x="72" y="416" width="64" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="104" y="424" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">SERVER 1</text>
+          <text x="180" y="456" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="180" dy="0">GitHub Server</tspan></text>
+          <text x="180" y="476" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="180" dy="0">tools · resources</tspan></text>
+        </g>
+
+        <g>
+          <rect x="480" y="408" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="480" y="408" width="240" height="80" rx="8" fill="rgba(45,49,66,0.05)"
+                stroke="#4f5d75" stroke-width="1.2"/>
+          <rect x="492" y="416" width="64" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="524" y="424" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">SERVER 2</text>
+          <text x="600" y="456" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="600" dy="0">Database Server</tspan></text>
+          <text x="600" y="476" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="600" dy="0">tools · resources</tspan></text>
+        </g>
+
+        <g>
+          <rect x="900" y="408" width="240" height="80" rx="8" fill="#f5f5f5"/>
+          <rect x="900" y="408" width="240" height="80" rx="8" fill="rgba(45,49,66,0.05)"
+                stroke="#4f5d75" stroke-width="1.2"/>
+          <rect x="912" y="416" width="64" height="12" rx="4"
+                fill="transparent" stroke="#4f5d75" stroke-opacity=".48" stroke-width=".8"/>
+          <text x="944" y="424" fill="#4f5d75" font-size="8"
+                font-weight="600" font-family="'Geist Mono',monospace"
+                text-anchor="middle" letter-spacing=".08em">SERVER 3</text>
+          <text x="1020" y="456" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle"><tspan x="1020" dy="0">Browser Server</tspan></text>
+          <text x="1020" y="476" fill="#4f5d75" font-size="12" font-weight="400" font-family="'Geist Mono',monospace" text-anchor="middle"><tspan x="1020" dy="0">tools · resources</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>
