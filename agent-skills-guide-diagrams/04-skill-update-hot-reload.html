@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Skill 更新与热加载边界</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font:400 16px/1.4 'Geist','PingFang SC','Noto Sans CJK SC',system-ui,sans-serif}
+    svg{display:block;width:1280px;height:720px}
+    .name{font:600 12px 'Geist','PingFang SC','Noto Sans CJK SC',sans-serif;fill:#2d3142}
+    .note{font:400 12px 'Geist','PingFang SC','Noto Sans CJK SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.08em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="04-skill-update-hot-reload-title 04-skill-update-hot-reload-desc">
+  <title id="04-skill-update-hot-reload-title">Skill 更新与热加载边界</title>
+  <desc id="04-skill-update-hot-reload-desc">修改 Skill 后先校验，再由 Runtime 重新发现并刷新目录。下一次激活可以读取新版本，但已经进入当前会话上下文的旧指令通常不会被自动删除。</desc>
+  <defs>
+    <marker id="reload-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="reload-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="reload-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+
+  <text x="40" y="44" class="mono">FLOWCHART · UPDATE LIFECYCLE</text>
+  <text x="40" y="80" font-family="'Instrument Serif',serif" font-size="28" fill="#2d3142">热加载更新文件，不会自动抹掉旧上下文</text>
+  <text x="40" y="104" class="note">目录发现、Catalog 刷新、正文重读和当前会话上下文，是四个不同生命周期。</text>
+
+  <line x1="192" y1="256" x2="240" y2="256" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+  <line x1="384" y1="256" x2="408" y2="256" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+
+  <line x1="552" y1="256" x2="624" y2="256" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+  <rect x="572" y="232" width="32" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="588" y="241" class="mono" text-anchor="middle">是</text>
+
+  <path d="M480 312 V368 H408" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+  <rect x="492" y="328" width="32" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="508" y="337" class="mono" text-anchor="middle">否</text>
+
+  <path d="M552 400 H584 Q600 400 600 384 V296 Q600 280 616 280 H624" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+
+  <line x1="768" y1="256" x2="816" y2="256" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#reload-arrow-link)"/>
+
+  <line x1="960" y1="256" x2="1040" y2="256" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#reload-arrow-link)"/>
+  <rect x="980" y="232" width="40" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="1000" y="241" class="mono" text-anchor="middle">否</text>
+
+  <line x1="888" y1="312" x2="888" y2="368" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#reload-arrow-accent)"/>
+  <rect x="900" y="328" width="40" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="920" y="337" class="mono" text-anchor="middle">是</text>
+
+  <line x1="888" y1="432" x2="888" y2="472" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+  <line x1="1008" y1="504" x2="1040" y2="504" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+  <line x1="1136" y1="296" x2="1136" y2="480" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#reload-arrow)"/>
+
+  <rect x="48" y="224" width="144" height="64" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="120" y="252" class="name" text-anchor="middle">编辑 Skill</text>
+  <text x="120" y="272" class="note" text-anchor="middle">正文 · 描述 · 资源</text>
+
+  <rect x="240" y="224" width="144" height="64" rx="6" fill="#fff" stroke="#4f5d75"/>
+  <text x="312" y="252" class="name" text-anchor="middle">校验</text>
+  <text x="312" y="272" class="note" text-anchor="middle">格式 · 引用 · 测试</text>
+
+  <polygon points="480,200 552,256 480,312 408,256" fill="#fff" stroke="#2d3142"/>
+  <text x="480" y="252" class="name" text-anchor="middle">Runtime 已发现？</text>
+  <text x="480" y="272" class="note" text-anchor="middle">监听或重新扫描</text>
+
+  <rect x="408" y="368" width="144" height="64" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="480" y="396" class="name" text-anchor="middle">刷新 / 重启</text>
+  <text x="480" y="416" class="note" text-anchor="middle">按客户端机制</text>
+
+  <rect x="624" y="224" width="144" height="64" rx="6" fill="#fff" stroke="#2e5aa8"/>
+  <text x="696" y="252" class="name" text-anchor="middle">Catalog 刷新</text>
+  <text x="696" y="272" class="note" text-anchor="middle">name + description</text>
+
+  <polygon points="888,200 960,256 888,312 816,256" fill="#fff" stroke="#2d3142"/>
+  <text x="888" y="252" class="name" text-anchor="middle">本会话已激活？</text>
+  <text x="888" y="272" class="note" text-anchor="middle">旧正文是否已入上下文</text>
+
+  <rect x="1040" y="216" width="192" height="80" rx="6" fill="rgba(46,90,168,.06)" stroke="#2e5aa8"/>
+  <text x="1136" y="248" class="name" text-anchor="middle">下一次激活读新版本</text>
+  <text x="1136" y="272" class="note" text-anchor="middle">重新读取 SKILL.md</text>
+
+  <rect x="816" y="368" width="144" height="64" rx="6" fill="rgba(235,108,54,.08)" stroke="#eb6c36"/>
+  <text x="888" y="396" class="name" text-anchor="middle">旧内容仍在上下文</text>
+  <text x="888" y="416" class="note" text-anchor="middle">不能只靠文件修改撤回</text>
+
+  <rect x="768" y="472" width="240" height="64" rx="6" fill="#fff" stroke="#4f5d75"/>
+  <text x="888" y="500" class="name" text-anchor="middle">新建会话，显式调用新版本</text>
+  <text x="888" y="520" class="note" text-anchor="middle">高风险更新的安全做法</text>
+
+  <rect x="1040" y="480" width="192" height="48" rx="24" fill="rgba(235,108,54,.08)" stroke="#eb6c36"/>
+  <text x="1136" y="509" class="name" text-anchor="middle">验证版本与行为</text>
+
+  <line x1="40" y1="584" x2="1240" y2="584" stroke="rgba(45,49,66,.14)" stroke-width=".8"/>
+  <text x="40" y="620" class="mono">01 · DISCOVERY</text>
+  <text x="264" y="620" class="mono">02 · CATALOG</text>
+  <text x="480" y="620" class="mono">03 · ACTIVATION</text>
+  <text x="704" y="620" class="mono">04 · CONTEXT</text>
+  <text x="40" y="648" class="note">发现目录</text>
+  <text x="264" y="648" class="note">更新路由元数据</text>
+  <text x="480" y="648" class="note">读取最新正文</text>
+  <text x="704" y="648" class="note">旧会话内容仍可能保留</text>
+  <text x="40" y="688" class="note">开放规范不承诺热加载；具体监听、缓存和刷新行为必须以客户端官方说明为准。</text>
+</svg>
+</body>
+</html>

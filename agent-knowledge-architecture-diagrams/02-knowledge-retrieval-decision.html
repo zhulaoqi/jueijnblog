@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Agent 外部知识访问路径选型</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font-family:'Geist','PingFang SC','Noto Sans CJK SC',sans-serif}
+    svg{display:block;width:1280px;height:720px}
+    .name{font:600 12px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .note{font:400 12px 'Geist','PingFang SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.08em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="02-knowledge-retrieval-decision-title 02-knowledge-retrieval-decision-desc">
+  <title id="02-knowledge-retrieval-decision-title">Agent 外部知识访问路径选型</title>
+  <desc id="02-knowledge-retrieval-decision-desc">先判断事实是否来自实时结构化系统或少量临时材料，再根据精确词项、语义或混合查询选择 BM25、向量或混合检索。</desc>
+  <defs>
+    <marker id="retrieval-decision-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="retrieval-decision-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="retrieval-decision-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+
+  <text x="40" y="44" class="mono">FLOWCHART · KNOWLEDGE ACCESS ROUTING</text>
+  <text x="40" y="80" font-family="'Instrument Serif',serif" font-size="28" fill="#2d3142">先选择知识访问路径，再选择存储产品</text>
+  <text x="40" y="108" class="note">Agent 需要的是事实，不是某一种“知识库”；结构化数据、临时材料和文档检索应该走不同路径。</text>
+
+  <line x1="520" y1="164" x2="520" y2="188" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#retrieval-decision-arrow)"/>
+  <path d="M664 240 H824" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#retrieval-decision-link)"/>
+  <path d="M520 292 V324" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#retrieval-decision-arrow)"/>
+  <path d="M664 376 H824" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#retrieval-decision-link)"/>
+  <path d="M520 428 V460" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#retrieval-decision-arrow)"/>
+  <path d="M520 556 V584 H248 V608" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#retrieval-decision-arrow)"/>
+  <path d="M520 556 V608" fill="none" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#retrieval-decision-accent)"/>
+  <path d="M520 584 H792 V608" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#retrieval-decision-arrow)"/>
+
+  <rect x="724" y="216" width="40" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="744" y="225" class="mono" text-anchor="middle">是</text>
+  <rect x="532" y="300" width="40" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="552" y="309" class="mono" text-anchor="middle">否</text>
+  <rect x="724" y="352" width="40" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="744" y="361" class="mono" text-anchor="middle">是</text>
+  <rect x="532" y="436" width="40" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="552" y="445" class="mono" text-anchor="middle">否</text>
+  <rect x="336" y="560" width="64" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="368" y="569" class="mono" text-anchor="middle">精确词项</text>
+  <rect x="532" y="572" width="64" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="564" y="581" class="mono" text-anchor="middle">两者都有</text>
+  <rect x="652" y="560" width="64" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="684" y="569" class="mono" text-anchor="middle">语义概念</text>
+
+  <rect x="424" y="124" width="192" height="40" rx="20" fill="#fff" stroke="#2d3142"/>
+  <text x="520" y="149" class="name" text-anchor="middle">Agent 需要一个外部事实</text>
+
+  <polygon points="520,188 664,240 520,292 376,240" fill="#fff" stroke="#2d3142"/>
+  <text x="520" y="236" class="name" text-anchor="middle">实时、精确、结构化？</text>
+  <text x="520" y="256" class="note" text-anchor="middle">库存 · 余额 · 指标 · 状态</text>
+
+  <rect x="824" y="208" width="248" height="64" rx="6" fill="rgba(46,90,168,.06)" stroke="#2e5aa8"/>
+  <text x="948" y="236" class="name" text-anchor="middle">SQL / 受限领域 API</text>
+  <text x="948" y="256" class="mono" text-anchor="middle">实时 · 参数化 · 权限明确</text>
+
+  <polygon points="520,324 664,376 520,428 376,376" fill="#fff" stroke="#2d3142"/>
+  <text x="520" y="372" class="name" text-anchor="middle">材料少且只用一次？</text>
+  <text x="520" y="392" class="note" text-anchor="middle">可以经济地完整输入</text>
+
+  <rect x="824" y="344" width="248" height="64" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="948" y="372" class="name" text-anchor="middle">长上下文直接输入</text>
+  <text x="948" y="392" class="mono" text-anchor="middle">无需索引 · 避免召回遗漏</text>
+
+  <polygon points="520,460 672,508 520,556 368,508" fill="rgba(235,108,54,.06)" stroke="#eb6c36"/>
+  <text x="520" y="504" class="name" text-anchor="middle">主要依赖哪种相关性信号？</text>
+  <text x="520" y="524" class="note" text-anchor="middle">词法 · 语义 · 混合</text>
+
+  <rect x="136" y="608" width="224" height="64" rx="6" fill="#fff" stroke="#4f5d75"/>
+  <text x="248" y="636" class="name" text-anchor="middle">全文检索 / BM25</text>
+  <text x="248" y="656" class="mono" text-anchor="middle">编号 · 错误码 · 专名 · 代码</text>
+
+  <rect x="408" y="608" width="224" height="64" rx="6" fill="rgba(235,108,54,.08)" stroke="#eb6c36" stroke-width="1.2"/>
+  <text x="520" y="636" class="name" text-anchor="middle">Hybrid Search</text>
+  <text x="520" y="656" class="mono" text-anchor="middle">BM25 + Vector + RRF</text>
+
+  <rect x="680" y="608" width="224" height="64" rx="6" fill="#fff" stroke="#4f5d75"/>
+  <text x="792" y="636" class="name" text-anchor="middle">向量语义检索</text>
+  <text x="792" y="656" class="mono" text-anchor="middle">问法改写 · 概念相似 · 多语言</text>
+
+  <rect x="1088" y="160" width="152" height="368" rx="8" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.16)" stroke-dasharray="4,4"/>
+  <rect x="1104" y="152" width="88" height="16" rx="2" fill="#f5f5f5"/>
+  <text x="1148" y="164" class="mono" text-anchor="middle">AFTER BASELINE</text>
+  <text x="1108" y="204" class="name">排序仍不准</text>
+  <text x="1108" y="224" class="note">增加 Reranker</text>
+  <line x1="1108" y1="248" x2="1220" y2="248" stroke="rgba(45,49,66,.14)"/>
+  <text x="1108" y="284" class="name">关系 / 多跳密集</text>
+  <text x="1108" y="304" class="note">对比 GraphRAG</text>
+  <line x1="1108" y1="328" x2="1220" y2="328" stroke="rgba(45,49,66,.14)"/>
+  <text x="1108" y="364" class="name">没有真实评测集</text>
+  <text x="1108" y="384" class="note">先不要升级复杂度</text>
+  <line x1="1108" y1="408" x2="1220" y2="408" stroke="rgba(45,49,66,.14)"/>
+  <text x="1108" y="444" class="name">选型最终依据</text>
+  <text x="1108" y="464" class="note">质量 · ACL · 延迟</text>
+  <text x="1108" y="484" class="note">成本 · 更新 · 运维</text>
+</svg>
+</body>
+</html>

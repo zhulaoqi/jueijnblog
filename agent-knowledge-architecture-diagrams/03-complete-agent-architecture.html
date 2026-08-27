@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Agent 核心与外部能力架构</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font-family:'Geist','PingFang SC','Noto Sans CJK SC',sans-serif}
+    svg{display:block;width:1280px;height:720px}
+    .name{font:600 12px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .note{font:400 11px 'Geist','PingFang SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.08em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="03-complete-agent-architecture-title 03-complete-agent-architecture-desc">
+  <title id="03-complete-agent-architecture-title">Agent 核心与外部能力架构</title>
+  <desc id="03-complete-agent-architecture-desc">Agent 核心由 Runtime、Context Manager、Model 和持久状态组成。Rules、Skills、History 与 Memory 是内部上下文来源，SQL、API、文档检索、图和互联网是通过 Tool 或 MCP 访问的外部知识与行动系统。</desc>
+  <defs>
+    <marker id="agent-arch-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="agent-arch-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="agent-arch-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+
+  <text x="40" y="44" class="mono">ARCHITECTURE · CORE VS EXTERNAL CAPABILITY</text>
+  <text x="40" y="80" font-family="'Instrument Serif',serif" font-size="28" fill="#2d3142">知识库不是 Agent 核心，外部知识访问才是稳定能力</text>
+  <text x="40" y="108" class="note">Agent 内部管理方法、记忆与状态；SQL、API、搜索、向量和图都通过 Tool / MCP 作为外部能力接入。</text>
+
+  <rect x="40" y="148" width="200" height="424" rx="8" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <rect x="56" y="140" width="96" height="16" rx="2" fill="#f5f5f5"/>
+  <text x="104" y="152" class="mono" text-anchor="middle">INTERACTION</text>
+
+  <rect x="264" y="148" width="640" height="424" rx="8" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <rect x="280" y="140" width="88" height="16" rx="2" fill="#f5f5f5"/>
+  <text x="324" y="152" class="mono" text-anchor="middle">AGENT CORE</text>
+
+  <rect x="928" y="148" width="312" height="424" rx="8" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <rect x="944" y="140" width="136" height="16" rx="2" fill="#f5f5f5"/>
+  <text x="1012" y="152" class="mono" text-anchor="middle">EXTERNAL CAPABILITY</text>
+
+  <path d="M208 292 H312 Q328 292 328 276 V232 Q328 216 344 216 H488" fill="none" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#agent-arch-accent)"/>
+  <path d="M568 248 V300 Q568 316 552 316 H432 V340" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M520 384 H664" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-arch-link)"/>
+  <path d="M752 340 V304 H736 Q720 304 720 288 V264 Q720 248 704 248 H648" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M432 480 V420" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M648 216 H960" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-arch-link)"/>
+  <path d="M1080 280 V320" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M1120 280 H1168 Q1184 280 1184 296 V448 Q1184 464 1168 464 H1160" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M960 248 H888 Q872 248 872 264 V292 Q872 308 856 308 H648" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M568 248 V480" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M752 420 V464 Q752 480 736 480 H680" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-arch-arrow)"/>
+  <path d="M960 248 H920 Q904 248 904 264 V512 Q904 528 888 528 H680" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-arch-arrow)"/>
+
+  <rect x="248" y="276" width="80" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="288" y="285" class="mono" text-anchor="middle">CREATE RUN</text>
+  <rect x="572" y="288" width="88" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="616" y="297" class="mono" text-anchor="middle">BUILD CONTEXT</text>
+  <rect x="568" y="360" width="56" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="596" y="369" class="mono" text-anchor="middle">INFERENCE</text>
+  <rect x="784" y="192" width="72" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="820" y="201" class="mono" text-anchor="middle">TOOL CALL</text>
+
+  <rect x="72" y="236" width="136" height="112" rx="6" fill="rgba(79,93,117,.08)" stroke="#7a8399"/>
+  <text x="140" y="276" class="name" text-anchor="middle">入口与会话</text>
+  <text x="140" y="300" class="mono" text-anchor="middle">User · API · Event</text>
+  <text x="140" y="320" class="mono" text-anchor="middle">Session · Task</text>
+
+  <rect x="488" y="184" width="160" height="64" rx="6" fill="rgba(235,108,54,.08)" stroke="#eb6c36" stroke-width="1.2"/>
+  <text x="568" y="212" class="name" text-anchor="middle">Agent Runtime / Loop</text>
+  <text x="568" y="232" class="mono" text-anchor="middle">Control · Budget · Stop</text>
+
+  <rect x="344" y="340" width="176" height="80" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="432" y="368" class="name" text-anchor="middle">Context Manager</text>
+  <text x="432" y="388" class="mono" text-anchor="middle">Select · Pack · Compress</text>
+  <text x="432" y="404" class="mono" text-anchor="middle">Token Budget</text>
+
+  <rect x="664" y="340" width="176" height="80" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="752" y="368" class="name" text-anchor="middle">Model Gateway</text>
+  <text x="752" y="388" class="mono" text-anchor="middle">Model · Router · Fallback</text>
+  <text x="752" y="404" class="mono" text-anchor="middle">Structured Output</text>
+
+  <rect x="320" y="480" width="224" height="64" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="432" y="508" class="name" text-anchor="middle">内部上下文来源</text>
+  <text x="432" y="528" class="mono" text-anchor="middle">Rules · Skills · History · Memory</text>
+
+  <rect x="568" y="480" width="224" height="64" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="680" y="508" class="name" text-anchor="middle">State · Checkpoint · Trace</text>
+  <text x="680" y="528" class="mono" text-anchor="middle">Persist · Resume · Observe · Eval</text>
+
+  <rect x="960" y="216" width="200" height="64" rx="6" fill="#fff" stroke="#2e5aa8"/>
+  <text x="1060" y="244" class="name" text-anchor="middle">Tool Runtime / MCP</text>
+  <text x="1060" y="264" class="mono" text-anchor="middle">Schema · Permission · Sandbox</text>
+
+  <rect x="960" y="320" width="240" height="72" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="1080" y="348" class="name" text-anchor="middle">外部知识系统</text>
+  <text x="1080" y="368" class="mono" text-anchor="middle">SQL · API · Search · Vector · Graph · Web</text>
+
+  <rect x="960" y="432" width="200" height="64" rx="6" fill="rgba(45,49,66,.03)" stroke="rgba(45,49,66,.30)"/>
+  <text x="1060" y="460" class="name" text-anchor="middle">外部行动系统</text>
+  <text x="1060" y="480" class="mono" text-anchor="middle">Git · Ticket · Deploy · Message</text>
+
+  <rect x="264" y="588" width="936" height="64" rx="8" fill="rgba(235,108,54,.05)" stroke="rgba(235,108,54,.50)" stroke-dasharray="4,4"/>
+  <text x="288" y="616" class="name">安全与治理横切层</text>
+  <text x="448" y="616" class="note">认证授权 · ACL · Secret 代理 · HITL 审批 · Guardrail · 审计</text>
+  <text x="288" y="636" class="mono">KNOWLEDGE BASE IS AN IMPLEMENTATION · KNOWLEDGE ACCESS IS THE CAPABILITY</text>
+</svg>
+</body>
+</html>

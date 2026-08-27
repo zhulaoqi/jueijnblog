@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>文档检索子系统构建链路</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font-family:'Geist','PingFang SC','Noto Sans CJK SC',sans-serif}
+    svg{display:block;width:1280px;height:720px}
+    .name{font:600 12px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .note{font:400 12px 'Geist','PingFang SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.08em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="01-knowledge-base-build-pipeline-title 01-knowledge-base-build-pipeline-desc">
+  <title id="01-knowledge-base-build-pipeline-title">文档检索子系统构建链路</title>
+  <desc id="01-knowledge-base-build-pipeline-desc">非结构化文档进入采集、解析、切片、权限与向量增强流程，随后写入原文、元数据、倒排和向量索引，并作为外部知识访问的一条路径发布。</desc>
+  <defs>
+    <marker id="kb-pipeline-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="kb-pipeline-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="kb-pipeline-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+
+  <text x="40" y="44" class="mono">DATA FLOW · DOCUMENT RETRIEVAL SUBSYSTEM</text>
+  <text x="40" y="80" font-family="'Instrument Serif',serif" font-size="28" fill="#2d3142">文档检索只是外部知识访问的一条实现路径</text>
+  <text x="40" y="108" class="note">本图只描述需要索引的非结构化文档；实时数据库和业务 API 不需要经过切片与向量化。</text>
+
+  <line x1="120" y1="176" x2="1240" y2="176" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <line x1="120" y1="264" x2="1240" y2="264" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <line x1="120" y1="352" x2="1240" y2="352" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <line x1="120" y1="440" x2="1240" y2="440" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <line x1="120" y1="528" x2="1240" y2="528" stroke="rgba(45,49,66,.12)" stroke-width=".8"/>
+  <line x1="120" y1="176" x2="120" y2="528" stroke="rgba(45,49,66,.20)" stroke-width=".8"/>
+  <rect x="120" y="176" width="1120" height="88" fill="rgba(45,49,66,.018)"/>
+  <rect x="120" y="352" width="1120" height="88" fill="rgba(45,49,66,.018)"/>
+
+  <text x="60" y="224" class="mono" text-anchor="middle">SOURCE</text>
+  <text x="60" y="312" class="mono" text-anchor="middle">PIPELINE</text>
+  <text x="60" y="400" class="mono" text-anchor="middle">STORAGE</text>
+  <text x="60" y="488" class="mono" text-anchor="middle">GOVERN</text>
+
+  <path d="M308 220 H352" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#kb-pipeline-arrow)"/>
+  <path d="M420 248 V272" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#kb-pipeline-arrow)"/>
+  <path d="M488 304 H520" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#kb-pipeline-arrow)"/>
+  <path d="M656 304 H688" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#kb-pipeline-arrow)"/>
+  <path d="M824 304 H856" fill="none" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#kb-pipeline-accent)"/>
+  <path d="M756 336 V384 H856" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#kb-pipeline-arrow)"/>
+  <path d="M924 336 V384" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#kb-pipeline-arrow)"/>
+  <path d="M992 416 H1024 Q1040 416 1040 400 V320 Q1040 304 1056 304 H1064" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#kb-pipeline-link)"/>
+  <path d="M420 248 V480 H688" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#kb-pipeline-arrow)"/>
+  <path d="M992 480 H1024 Q1040 480 1040 464 V352 Q1040 336 1024 336 H992" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#kb-pipeline-arrow)"/>
+
+  <rect x="320" y="188" width="32" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="336" y="197" class="mono" text-anchor="middle">RAW</text>
+  <rect x="664" y="280" width="16" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="672" y="289" class="mono" text-anchor="middle">块</text>
+  <rect x="828" y="280" width="24" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="840" y="289" class="mono" text-anchor="middle">向量</text>
+  <rect x="996" y="392" width="72" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="1032" y="401" class="mono" text-anchor="middle">发布检索</text>
+
+  <rect x="172" y="188" width="136" height="64" rx="6" fill="rgba(79,93,117,.08)" stroke="#7a8399"/>
+  <rect x="184" y="196" width="36" height="12" rx="2" fill="transparent" stroke="rgba(79,93,117,.45)"/>
+  <text x="202" y="205" class="mono" text-anchor="middle">INPUT</text>
+  <text x="240" y="224" class="name" text-anchor="middle">企业数据源</text>
+  <text x="240" y="244" class="mono" text-anchor="middle">Files · Wiki · DB · API</text>
+
+  <rect x="352" y="188" width="136" height="64" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="420" y="216" class="name" text-anchor="middle">采集与版本</text>
+  <text x="420" y="236" class="mono" text-anchor="middle">ID · ETag · Hash</text>
+
+  <rect x="352" y="272" width="136" height="64" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="420" y="300" class="name" text-anchor="middle">解析与清洗</text>
+  <text x="420" y="320" class="mono" text-anchor="middle">Layout · OCR · Table</text>
+
+  <rect x="520" y="272" width="136" height="64" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="588" y="300" class="name" text-anchor="middle">结构化切片</text>
+  <text x="588" y="320" class="mono" text-anchor="middle">Parent · Neighbor</text>
+
+  <rect x="688" y="272" width="136" height="64" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="756" y="300" class="name" text-anchor="middle">语境与向量</text>
+  <text x="756" y="320" class="mono" text-anchor="middle">Context · Embedding</text>
+
+  <rect x="856" y="272" width="136" height="64" rx="6" fill="rgba(235,108,54,.08)" stroke="#eb6c36" stroke-width="1.2"/>
+  <text x="924" y="300" class="name" text-anchor="middle">构建检索索引</text>
+  <text x="924" y="320" class="mono" text-anchor="middle">BM25 · Vector · Graph</text>
+
+  <rect x="1064" y="272" width="136" height="64" rx="6" fill="#fff" stroke="#2e5aa8"/>
+  <text x="1132" y="300" class="name" text-anchor="middle">知识访问接口</text>
+  <text x="1132" y="320" class="mono" text-anchor="middle">Search Tool · MCP</text>
+
+  <rect x="856" y="384" width="136" height="64" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="924" y="412" class="name" text-anchor="middle">分层存储</text>
+  <text x="924" y="432" class="mono" text-anchor="middle">Raw · Meta · Index</text>
+
+  <rect x="688" y="448" width="304" height="64" rx="6" fill="rgba(45,49,66,.03)" stroke="#4f5d75" stroke-dasharray="4,3"/>
+  <text x="840" y="476" class="name" text-anchor="middle">治理与生命周期</text>
+  <text x="840" y="496" class="mono" text-anchor="middle">ACL · Version · Diff · Tombstone · Alias</text>
+
+  <line x1="40" y1="592" x2="1240" y2="592" stroke="rgba(45,49,66,.14)" stroke-width=".8"/>
+  <text x="40" y="624" class="mono">DATA ASSET</text>
+  <text x="160" y="624" class="note">原文是权威事实；Chunk、Embedding、倒排与图索引都是可重建派生物。</text>
+  <text x="40" y="660" class="mono">LIFECYCLE</text>
+  <text x="160" y="660" class="note">全量导入只是开始，真正困难的是增量更新、撤权、删除与索引版本切换。</text>
+</svg>
+</body>
+</html>

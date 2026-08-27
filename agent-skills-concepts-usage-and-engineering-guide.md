@@ -19,6 +19,8 @@ Agent Skills 正在成为通用 Agent 系统中重要的能力扩展方式。它
 
 ---
 
+
+
 ## 1. Skill 是什么
 
 Agent Skill 是一个可以被 Agent 发现并按需加载的目录包。它至少包含一个 `SKILL.md`，也可以附带脚本、参考资料、模板和其他资源。
@@ -41,6 +43,8 @@ skill-name/
 Anthropic 将 Skill 类比为给新员工准备的 onboarding guide：通用 Agent 已经有基础能力，Skill 负责补充组织特有的工作方式和专业知识。
 
 ### 1.1 Skill 不是什么
+
+
 
 #### Skill 不是普通 Prompt 模板
 
@@ -66,6 +70,8 @@ Skill 适合沉淀稳定方法和必要知识，不适合记录不断变化的�
 
 ---
 
+
+
 ## 2. Skill 在 Agent 系统中的定位
 
 ![Skill 位于 Agent Runtime 的按需行为层，并通过 Tool、MCP 和知识系统完成真实工作](./agent-skills-guide-diagrams/01-skill-position-in-agent-system.png)
@@ -84,6 +90,8 @@ Agent Runtime
   └─ Loop：规划、调用、观察、继续或结束
 ```
 
+
+
 ### 2.1 Skill 属于行为与知识层
 
 Skill 的直接产物是“进入模型上下文的指令与资源”。它改变的是 Agent 处理任务的方法：
@@ -99,13 +107,15 @@ Skill 不直接拥有执行权。是否允许读取文件、运行脚本、访�
 
 ### 2.2 Skill、Rules、Memory、RAG、MCP 的区别
 
-| 机制 | 主要作用 | 加载时机 | 适合内容 |
-| --- | --- | --- | --- |
-| Rules | 全局或路径级约束 | 始终或按文件范围加载 | 编码规范、禁止事项、固定约定 |
-| Skill | 可复用专业流程 | 任务相关时按需加载 | 工作流、领域方法、工具使用指南 |
-| Memory | 保存跨轮次状态 | 按会话或用户读取 | 偏好、历史状态、长期上下文 |
-| RAG/搜索 | 从大规模语料检索事实 | 查询时动态检索 | 文档库、实时知识、海量内容 |
-| Tool/MCP | 执行外部操作 | 模型或流程决定调用时 | API、数据库、文件、业务动作 |
+
+| 机制       | 主要作用       | 加载时机       | 适合内容            |
+| -------- | ---------- | ---------- | --------------- |
+| Rules    | 全局或路径级约束   | 始终或按文件范围加载 | 编码规范、禁止事项、固定约定  |
+| Skill    | 可复用专业流程    | 任务相关时按需加载  | 工作流、领域方法、工具使用指南 |
+| Memory   | 保存跨轮次状态    | 按会话或用户读取   | 偏好、历史状态、长期上下文   |
+| RAG/搜索   | 从大规模语料检索事实 | 查询时动态检索    | 文档库、实时知识、海量内容   |
+| Tool/MCP | 执行外部操作     | 模型或流程决定调用时 | API、数据库、文件、业务动作 |
+
 
 判断原则：
 
@@ -117,7 +127,11 @@ Skill 不直接拥有执行权。是否允许读取文件、运行脚本、访�
 
 ---
 
+
+
 ## 3. Skill 的标准结构
+
+
 
 ### 3.1 最小目录
 
@@ -147,7 +161,98 @@ database-migration/
 
 规范定义 `scripts/`、`references/` 和 `assets/` 为推荐约定；`evals/` 是常见工程扩展，不属于必需结构。
 
-### 3.2 `SKILL.md` 由两部分组成
+下面按「Catalog → `SKILL.md` → 其他目录」的顺序说明各部分职责。只有 `SKILL.md` 是规范要求的；其余目录都是为了让正文保持简短，并把细节放到第三级渐进式披露里。
+
+### 3.2 目录内各部分职责
+
+| 路径 | 规范地位 | 典型内容 | 何时进入上下文 |
+| --- | --- | --- | --- |
+| `SKILL.md` | 必需 | frontmatter + 核心流程 | Skill 被激活时 |
+| `scripts/` | 推荐 | 可执行脚本 | 流程要求运行，或 Agent 判断需要时 |
+| `references/` | 推荐 | 补充说明、策略、错误码表 | `SKILL.md` 写明触发条件后按需读取 |
+| `assets/` | 推荐 | 模板、样例、静态资源 | 需要套用格式或复制骨架时 |
+| `evals/` | 工程扩展 | 评测用例与断言 | 开发维护阶段，不参与线上命中 |
+
+#### `scripts/`：确定性执行
+
+放 Agent 应该**直接运行**的逻辑，而不是每次让模型临场重写：
+
+- Schema / 计划校验（如 `validate-plan.py`）；
+- 固定格式转换、报表生成；
+- 重复且容易写错的命令组合；
+- 需要稳定退出码和可解析输出的检查。
+
+`SKILL.md` 里要写清：用什么命令、参数含义、成功/失败时 Agent 下一步做什么。脚本本身应非交互、支持 `--help`、结构化结果走 stdout、诊断走 stderr，并尽量幂等。规范与 [Using scripts](https://agentskills.io/skill-creation/using-scripts) 一致。
+
+```markdown
+## Validate plan
+
+Run before proposing any destructive change:
+
+python3 scripts/validate-plan.py path/to/plan.json
+
+If exit code is non-zero, read stderr, fix the plan, and re-run until it passes.
+```
+
+Agent 有代码执行能力时，通常**只消费脚本输出**，不必把整份脚本读进上下文；因此脚本可以比正文更长，而不挤占对话 token。
+
+#### `references/`：按需加载的详细资料
+
+放 `SKILL.md` 装不下、或只在特定分支才需要的说明：
+
+- 团队迁移策略（`migration-policy.md`）；
+- 回滚模式与案例（`rollback-patterns.md`）；
+- API 字段说明、错误码映射、术语表；
+- 某语言/框架下的细粒度规范。
+
+这些文件**不会**在 Catalog 阶段出现；只有 Agent 按 `SKILL.md` 指令读取时才会进入上下文。因此 `SKILL.md` 必须写清触发条件，例如「若计划包含 `DROP COLUMN`，先读 `references/rollback-patterns.md`」，而不是笼统写「详见 references/」。
+
+建议：单文件聚焦一个主题、体量可控；从 `SKILL.md` 引用时尽量只深入一层，避免 `index → chapter → detail` 的深层链。
+
+#### `assets/`：模板与静态资源
+
+放**拿来用**而不是**整篇读完**的材料：
+
+- 输出模板（`migration-plan-template.md`）；
+- 报告、Commit Message、ADR 的结构骨架；
+- 示例配置、样例 JSON、固定表格头；
+- 图表或二进制资源（按产品能力使用）。
+
+与 `references/` 的边界：
+
+- `references/` 偏向「解释与决策依据」；
+- `assets/` 偏向「复制、填充、生成产物时的格式源」。
+
+`SKILL.md` 中应说明是复制模板后填写，还是让 Agent 按模板结构生成新文件。
+
+#### `evals/`：评测与回归（工程扩展）
+
+开放规范不要求 `evals/`，但成熟团队常会放在 Skill 目录内，用于验证「命中是否对、执行是否对」：
+
+```json
+{
+  "skill_name": "database-migration",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this Flyway migration for lock and rollback risks",
+      "expected_output": "Lists lock risks, backward compatibility issues, and rollback steps",
+      "assertions": [
+        "Mentions rollback plan",
+        "Calls or references validate-plan before approving destructive SQL"
+      ]
+    }
+  ]
+}
+```
+
+- `prompt`：模拟用户怎么说；
+- `expected_output` / `assertions`：描述成功标准；
+- 可附带 `evals/files/` 下的样例输入。
+
+`evals/` 服务于 Skill 开发与 CI，一般**不会**被 Runtime 当作 Catalog 或自动加载的上下文；详见第 10 章评测实践。
+
+### 3.3 `SKILL.md` 由两部分组成
 
 ```markdown
 ---
@@ -173,16 +278,18 @@ metadata:
 
 第一部分是 YAML frontmatter，第二部分是 Markdown 指令正文。
 
-### 3.3 标准 frontmatter 字段
+### 3.4 标准 frontmatter 字段
 
-| 字段 | 是否必需 | 作用 |
-| --- | --- | --- |
-| `name` | 是 | Skill 的稳定标识，必须与父目录名一致 |
-| `description` | 是 | 描述做什么、什么时候使用，是发现和命中的核心信号 |
-| `license` | 否 | License 名称或 Skill 内 License 文件 |
-| `compatibility` | 否 | 产品、系统包、网络和运行环境要求 |
-| `metadata` | 否 | 自定义字符串键值，例如 owner、version |
-| `allowed-tools` | 否 | 预授权工具列表，仍是实验字段，产品支持不一致 |
+
+| 字段              | 是否必需 | 作用                             |
+| --------------- | ---- | ------------------------------ |
+| `name`          | 是    | Skill 的稳定标识，必须与父目录名一致          |
+| `description`   | 是    | 描述做什么、什么时候使用，是发现和命中的核心信号       |
+| `license`       | 否    | License 名称或 Skill 内 License 文件 |
+| `compatibility` | 否    | 产品、系统包、网络和运行环境要求               |
+| `metadata`      | 否    | 自定义字符串键值，例如 owner、version      |
+| `allowed-tools` | 否    | 预授权工具列表，仍是实验字段，产品支持不一致         |
+
 
 `name` 必须满足：
 
@@ -197,7 +304,9 @@ metadata:
 1. 这个 Skill 能做什么；
 2. 什么用户意图或任务场景应该使用它。
 
-### 3.4 标准字段和产品扩展不要混写
+
+
+### 3.5 标准字段和产品扩展不要混写
 
 Claude Code 等产品扩展了 frontmatter，例如：
 
@@ -215,7 +324,9 @@ model: inherit
 - 不要假设另一个 Agent 会理解或执行扩展字段；
 - `allowed-tools` 本身也是实验字段，权限仍以宿主 Runtime 为准。
 
-### 3.5 渐进式披露
+
+
+### 3.6 渐进式披露
 
 Skill 可扩展的关键不是目录，而是 progressive disclosure：
 
@@ -253,7 +364,11 @@ Skill 可扩展的关键不是目录，而是 progressive disclosure：
 
 ---
 
+
+
 ## 4. Skill 如何生成
+
+
 
 ### 4.1 不要从“让模型写一个最佳实践 Skill”开始
 
@@ -271,6 +386,8 @@ Agent Skills 官方最佳实践明确指出：只让模型依赖通用训练知�
 Skill 生成的本质不是“生成 Markdown”，而是**提取可复用的决策和步骤**。
 
 ### 4.2 推荐生成流程
+
+
 
 #### 第一步：确认能力缺口
 
@@ -299,6 +416,8 @@ Skill 生成的本质不是“生成 Markdown”，而是**提取可复用的决
 - 什么情况不应该使用；
 - 成功标准是什么。
 
+
+
 #### 第三步：先写命中描述
 
 ```yaml
@@ -314,6 +433,8 @@ description: >
 ```yaml
 description: Helps with databases.
 ```
+
+
 
 #### 第四步：只写最小有效流程
 
@@ -350,6 +471,8 @@ description: Helps with databases.
 - 破坏性操作支持 `--dry-run`；
 - 固定依赖版本。
 
+
+
 #### 第六步：从真实失败中迭代
 
 执行 Skill 后，重点看完整轨迹，而不只是最终答案：
@@ -365,7 +488,11 @@ description: Helps with databases.
 
 ---
 
+
+
 ## 5. Skill 如何使用
+
+
 
 ### 5.1 安装位置由客户端决定
 
@@ -373,13 +500,17 @@ description: Helps with databases.
 
 常见路径如下：
 
-| 客户端 | 项目级 | 用户级 |
-| --- | --- | --- |
-| 通用约定 | `.agents/skills/<name>/` | `~/.agents/skills/<name>/` |
-| Cursor | `.cursor/skills/<name>/` | `~/.cursor/skills/<name>/` |
-| Claude Code | `.claude/skills/<name>/` | `~/.claude/skills/<name>/` |
-| OpenAI Codex | `.agents/skills/`、`.codex/skills/` | `~/.agents/skills/`、`~/.codex/skills/` |
-| GitHub Copilot | `.github/skills/`、`.claude/skills/`、`.agents/skills/` | `~/.copilot/skills/`、`~/.agents/skills/` |
+
+| 客户端            | 项目级                                                                       | 用户级                                                                               |
+| -------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| 通用约定           | `.agents/skills/<name>/`                                                  | `~/.agents/skills/<name>/`                                                        |
+| Cursor         | `.agents/skills/`、`.cursor/skills/`，兼容 `.claude/skills/`、`.codex/skills/` | `~/.agents/skills/`、`~/.cursor/skills/`，兼容 `~/.claude/skills/`、`~/.codex/skills/` |
+| Claude Code    | `.claude/skills/<name>/`                                                  | `~/.claude/skills/<name>/`                                                        |
+| OpenAI Codex   | `.agents/skills/`、`.codex/skills/`                                        | `~/.agents/skills/`、`~/.codex/skills/`                                            |
+| GitHub Copilot | `.github/skills/`、`.claude/skills/`、`.agents/skills/`                     | `~/.copilot/skills/`、`~/.agents/skills/`                                          |
+
+
+Cursor 会递归发现 Skill 根目录中的 `SKILL.md`。位于仓库子目录中的 Skill 会自动限定到该目录及其子目录，例如 `apps/web/.cursor/skills/` 只面向 `apps/web/`。还可以通过 `paths` 进一步限定匹配文件。Cursor 本地个人 Skill 不会自动复制到 Cloud Agent、Remote SSH Agent 或 BYOM Worker；远程执行应使用仓库内项目 Skill，或把 Skill 写入 Worker 镜像。
 
 工程上优先使用项目级 Skill：
 
@@ -402,6 +533,8 @@ description: Helps with databases.
 6. Runtime 或模型读取完整 `SKILL.md`；
 7. Agent 按说明加载资源、调用工具并完成任务。
 
+
+
 ### 5.3 显式调用
 
 多数客户端提供显式调用方式，例如：
@@ -420,11 +553,20 @@ $database-migration
 - 用户必须明确选择的危险操作；
 - 需要传递参数的命令式流程。
 
+以 Cursor 为例：
+
+- `/skill-name`：将 Skill 附着到当前一条消息；
+- `@skill-name`：把 Skill 作为上下文附加；
+- Custom Mode 中选择 Skill：可以让它在整个会话模式内保持激活；
+- `disable-model-invocation: true`：禁止自动命中，只保留显式调用。
+
 自动命中适合：
 
 - 用户通常不知道 Skill 名称；
 - Skill 对多种自然语言表达都应该生效；
 - 任务边界清晰、误触发风险低。
+
+
 
 ### 5.4 Skill 被激活后发生什么
 
@@ -450,7 +592,11 @@ Skill 指令要求时才读取 reference
 
 ---
 
+
+
 ## 6. Skill 是如何被命中的
+
+
 
 ### 6.1 `description` 是主要路由信号
 
@@ -506,6 +652,8 @@ description: >
 - 不要堆砌所有可能关键词；
 - 不要为了提高召回率把 description 写成“任何开发任务都使用”。
 
+
+
 ### 6.4 用正负样本测试命中
 
 为每个 Skill 准备命中评测：
@@ -545,6 +693,8 @@ trigger_rate = 命中次数 / 总运行次数
 - **选择冲突**：多个 Skill description 高度重叠；
 - **命中后无收益**：Skill 被加载，但结果不比基线更好。
 
+
+
 ### 6.5 显式调用是确定性入口
 
 自动命中始终是模型决策。需要确定性时：
@@ -555,6 +705,8 @@ trigger_rate = 命中次数 / 总运行次数
 - 在 Agent SDK 中只暴露允许使用的 Skill 列表。
 
 ---
+
+
 
 ## 7. 知识库能否 Skill 化
 
@@ -582,6 +734,8 @@ trigger_rate = 命中次数 / 总运行次数
 - 团队设计模式；
 - 某个流程按场景拆分的详细资料。
 
+
+
 ### 7.2 不适合直接 Skill 化的知识
 
 下面内容更适合外部知识库、搜索或 RAG：
@@ -598,6 +752,8 @@ trigger_rate = 命中次数 / 总运行次数
 1. Agent 不知道应该读哪一篇；
 2. 版本和权限难以管理；
 3. 文件存在不代表内容会自动进入模型上下文。
+
+
 
 ### 7.3 最合理的是混合架构
 
@@ -647,6 +803,8 @@ Skill 保存“怎样使用知识”，知识库保存“当前有哪些事实�
 
 ---
 
+
+
 ## 8. 更新与热加载
 
 “修改文件后是否立即生效”不是一个单一问题。需要拆成四层：
@@ -669,6 +827,8 @@ Skill 保存“怎样使用知识”，知识库保存“当前有哪些事实�
 - 已经激活过旧版的长会话，最好新建会话验证；
 - 高风险变更不要依赖“看起来已经热加载”。
 
+
+
 ### 8.2 Claude Code 的实时变更检测
 
 Claude Code 官方文档明确说明：
@@ -676,13 +836,24 @@ Claude Code 官方文档明确说明：
 - 监听 `~/.claude/skills/`、项目 `.claude/skills/` 和 `--add-dir` 中已有的 Skill 目录；
 - 在当前会话内发现 `SKILL.md` 的新增、修改和删除，不要求重启；
 - 如果会话启动时顶层 Skills 目录还不存在，创建后需要重启 Claude Code 才能开始监听；
--实时检测只覆盖 `SKILL.md` 文本；
+- 实时检测只覆盖 `SKILL.md` 文本；
 - Plugin 中 hooks、MCP、agents、output styles 等资源需要 `/reload-plugins`；
 - 已经调用过的 Skill 内容仍会留在当前上下文，直到会话结束。
 
+
+
 ### 8.3 Cursor 和其他客户端
 
-不同产品的扫描周期、缓存和会话更新策略可能不同。如果官方资料没有明确承诺热加载，工程上不要推断：
+Cursor 官方资料目前明确的是“启动时扫描 Skill 目录”，但对裸 `.cursor/skills/`、`.agents/skills/` 目录没有承诺文件监听式热加载，也没有说明修改后何时重新扫描、是否必须新建聊天或 Reload Window。
+
+Cursor CLI 有两个更具体的边界：
+
+- `/add-dir` 会立即刷新 slash Skill 和自定义命令列表；
+- 要让 Agent 自动发现新增 Skill，官方 CLI 更新日志要求重启。
+
+本地 Plugin 修改后可以重启 Cursor 或执行 `Developer: Reload Window`，但这是 Plugin 加载规则，不能推导为裸 Skill 目录也具备相同行为。
+
+不同产品的扫描周期、缓存和会话更新策略不同。如果官方资料没有明确承诺，工程上不要推断：
 
 - 文件保存成功不代表 Catalog 已刷新；
 - Catalog 已刷新不代表当前会话删除了旧内容；
@@ -724,7 +895,11 @@ metadata:
 
 ---
 
+
+
 ## 9. 使用与维护避坑
+
+
 
 ### 9.1 Skill 范围过大
 
@@ -740,6 +915,8 @@ metadata:
 - 共享材料提取为 reference；
 - 避免把“公司所有研发规范”做成一个 Skill。
 
+
+
 ### 9.2 把普通常识重复写进 Skill
 
 Skill 中的每个 token 都会与对话、代码和其他 Skill 竞争注意力。只保留模型缺少的内容：
@@ -749,6 +926,8 @@ Skill 中的每个 token 都会与对话、代码和其他 Skill 竞争注意力
 - 固定流程；
 - 工具和环境约束；
 - 真实失败经验。
+
+
 
 ### 9.3 description 只写功能，不写触发场景
 
@@ -762,6 +941,8 @@ description: >
   Use when the user requests weekly engineering metrics, incident trends,
   delivery summaries, or the standard leadership report.
 ```
+
+
 
 ### 9.4 参考文件拆得太深
 
@@ -794,6 +975,8 @@ SKILL.md → index.md → platform.md → api.md → error.md
 - 输入输出格式；
 - 权限需求。
 
+
+
 ### 9.7 授权边界写在 description 里
 
 Skill 指令不是安全边界。即使正文写着“只能读取”，仍必须由：
@@ -819,6 +1002,8 @@ Skill 可以指导 Agent 运行脚本、读取文件和访问网络。安装第�
 - assets 是否包含二进制或隐藏内容；
 - License 和维护来源是否可信。
 
+
+
 ### 9.9 只测试输出，不看执行轨迹
 
 最终答案正确，过程仍可能存在：
@@ -834,7 +1019,11 @@ Skill 可以指导 Agent 运行脚本、读取文件和访问网络。安装第�
 
 ---
 
+
+
 ## 10. Skill 工程化实践
+
+
 
 ### 10.1 把 Skill 当成代码资产
 
@@ -859,6 +1048,8 @@ Skill 可以指导 Agent 运行脚本、读取文件和访问网络。安装第�
 - 有命中与输出评测；
 - scripts 有普通单元测试；
 - 高风险 Skill 有人工审批点。
+
+
 
 ### 10.2 CI 校验
 
@@ -885,6 +1076,8 @@ skills-ref validate ./database-migration
 
 ### 10.3 建立两类评测
 
+
+
 #### 命中评测
 
 回答“是否在正确任务上加载”：
@@ -894,6 +1087,8 @@ skills-ref validate ./database-migration
 - near-miss；
 - 多次运行后的 trigger rate；
 - 同类 Skill 冲突。
+
+
 
 #### 效果评测
 
@@ -953,7 +1148,11 @@ Runtime 或平台最好记录：
 
 ---
 
+
+
 ## 11. 工程师速查
+
+
 
 ### 应该创建 Skill 的信号
 
@@ -964,6 +1163,8 @@ Runtime 或平台最好记录：
 - 需要固定输出模板和验证动作；
 - Agent 每次都临时编写同一种辅助脚本。
 
+
+
 ### 不应该创建 Skill 的信号
 
 - 模型不加 Skill 已经稳定完成；
@@ -972,6 +1173,8 @@ Runtime 或平台最好记录：
 - 核心需求是实时检索；
 - 核心需求是外部系统执行能力；
 - 无法定义什么叫成功。
+
+
 
 ### 发布前检查
 
@@ -988,6 +1191,8 @@ Runtime 或平台最好记录：
 
 ---
 
+
+
 ## 12. 总结
 
 Agent Skill 的价值，不是把更多文字塞给模型，而是把组织的专业能力整理成**可发现、可按需加载、可执行、可验证、可维护**的工程单元。
@@ -995,13 +1200,15 @@ Agent Skill 的价值，不是把更多文字塞给模型，而是把组织的�
 理解 Skill 时，需要始终抓住四个核心：
 
 1. **Skill 是按需加载的行为与专业知识包，不是独立 Agent，也不是 Tool。**
-2. **Skill 依靠 `name` 和 `description` 被发现，命中是模型路由决策，需要正负样本评测。**
+2. **Skill 依靠** `name` **和** `description` **被发现，命中是模型路由决策，需要正负样本评测。**
 3. **稳定方法适合 Skill，动态大规模事实适合知识库；最佳实践通常是 Skill 指导 Agent 使用检索和 MCP。**
 4. **热加载是客户端能力，不是开放规范保证；目录发现、Catalog 刷新、正文重读和旧上下文必须分开理解。**
 
 成熟的 Skill 不应该依赖“模型应该能理解”。它应该像成熟代码一样，有清晰边界、稳定接口、最小权限、自动校验、回归评测、版本治理和真实运行数据。
 
 ---
+
+
 
 ## 参考资料
 
@@ -1014,6 +1221,10 @@ Agent Skill 的价值，不是把更多文字塞给模型，而是把组织的�
 - [Agent Skills：Using Scripts](https://agentskills.io/skill-creation/using-scripts)
 - [Anthropic：Equipping Agents for the Real World with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 - [Claude Code：Skills](https://docs.anthropic.com/en/docs/claude-code/skills)
+- [Cursor：Agent Skills](https://cursor.com/docs/skills)
+- [Cursor：CLI Changelog](https://cursor.com/docs/cli/changelog)
+- [Cursor：Skills Help](https://cursor.com/help/customization/skills)
 - [OpenAI：Testing Agent Skills Systematically with Evals](https://developers.openai.com/blog/eval-skills)
 - [OpenAI Codex：Build Skills](https://developers.openai.com/codex/skills)
 - [GitHub Copilot：About Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
+

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Agent 外部知识与行动调用链</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font-family:'Geist','PingFang SC','Noto Sans CJK SC',sans-serif}
+    svg{display:block;width:1280px;height:720px}
+    .name{font:600 12px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .note{font:400 11px 'Geist','PingFang SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.06em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="04-agent-end-to-end-call-chain-title 04-agent-end-to-end-call-chain-desc">
+  <title id="04-agent-end-to-end-call-chain-title">Agent 外部知识与行动调用链</title>
+  <desc id="04-agent-end-to-end-call-chain-desc">用户请求进入 Runtime 后，Runtime 装配上下文并调用模型，模型按需调用知识访问层或行动工具，Runtime 校验和执行后回灌结果，直到生成最终回答或触发预算停止。</desc>
+  <defs>
+    <marker id="agent-seq-call" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+    <marker id="agent-seq-return" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="agent-seq-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+  </defs>
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+
+  <text x="40" y="36" class="mono">SEQUENCE · KNOWLEDGE ACCESS AND ACTION</text>
+  <text x="40" y="72" font-family="'Instrument Serif',serif" font-size="28" fill="#2d3142">知识查询和外部行动，共用 Loop 但遵循不同风险策略</text>
+  <text x="40" y="100" class="note">模型只提出访问或执行意图；Runtime 选择知识路径、校验行动权限，再把真实环境反馈送回推理。</text>
+
+  <line x1="100" y1="164" x2="100" y2="680" stroke="rgba(45,49,66,.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="360" y1="164" x2="360" y2="680" stroke="rgba(45,49,66,.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="640" y1="164" x2="640" y2="680" stroke="rgba(45,49,66,.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="900" y1="164" x2="900" y2="680" stroke="rgba(45,49,66,.20)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="1160" y1="164" x2="1160" y2="680" stroke="rgba(45,49,66,.20)" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <rect x="356" y="188" width="8" height="468" fill="rgba(45,49,66,.06)" stroke="#4f5d75" stroke-width=".8"/>
+  <rect x="636" y="264" width="8" height="52" fill="rgba(45,49,66,.06)" stroke="#4f5d75" stroke-width=".8"/>
+  <rect x="636" y="408" width="8" height="52" fill="rgba(45,49,66,.06)" stroke="#4f5d75" stroke-width=".8"/>
+  <rect x="636" y="552" width="8" height="52" fill="rgba(45,49,66,.06)" stroke="#4f5d75" stroke-width=".8"/>
+  <rect x="896" y="336" width="8" height="52" fill="rgba(45,49,66,.06)" stroke="#4f5d75" stroke-width=".8"/>
+  <rect x="1156" y="480" width="8" height="52" fill="rgba(45,49,66,.06)" stroke="#4f5d75" stroke-width=".8"/>
+
+  <rect x="296" y="220" width="900" height="352" rx="4" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.22)" stroke-width="1"/>
+  <rect x="296" y="220" width="48" height="16" rx="2" fill="#f5f5f5" stroke="rgba(45,49,66,.22)" stroke-width="1"/>
+  <text x="320" y="232" class="mono" text-anchor="middle">LOOP</text>
+  <text x="356" y="232" class="mono">[直到 Final、预算停止或外部中断]</text>
+
+  <line x1="100" y1="196" x2="356" y2="196" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-seq-call)"/>
+  <text x="228" y="188" class="mono" text-anchor="middle">1 · 请求 + 身份 + 会话</text>
+
+  <line x1="364" y1="272" x2="636" y2="272" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-seq-call)"/>
+  <text x="500" y="264" class="mono" text-anchor="middle">2 · 装配上下文并推理</text>
+
+  <line x1="636" y1="308" x2="364" y2="308" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-seq-return)"/>
+  <text x="500" y="300" class="mono" text-anchor="middle">3 · knowledge_search(query)</text>
+
+  <line x1="364" y1="344" x2="896" y2="344" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-seq-call)"/>
+  <text x="630" y="336" class="mono" text-anchor="middle">4 · 注入 ACL，路由 SQL / API / Search / Graph</text>
+
+  <line x1="896" y1="380" x2="364" y2="380" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-seq-return)"/>
+  <text x="630" y="372" class="mono" text-anchor="middle">5 · Evidence + Source ID</text>
+
+  <line x1="364" y1="416" x2="636" y2="416" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-seq-call)"/>
+  <text x="500" y="408" class="mono" text-anchor="middle">6 · 精简证据进入下一轮 Context</text>
+
+  <line x1="636" y1="452" x2="364" y2="452" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-seq-return)"/>
+  <text x="500" y="444" class="mono" text-anchor="middle">7 · tool_call(name, args, call_id)</text>
+
+  <line x1="364" y1="488" x2="1156" y2="488" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-seq-call)"/>
+  <text x="760" y="480" class="mono" text-anchor="middle">8 · Schema · Permission · Budget · HITL 后执行</text>
+
+  <line x1="1156" y1="524" x2="364" y2="524" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-seq-return)"/>
+  <text x="760" y="516" class="mono" text-anchor="middle">9 · Tool Result / Artifact / Error</text>
+
+  <line x1="364" y1="560" x2="636" y2="560" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#agent-seq-call)"/>
+  <text x="500" y="552" class="mono" text-anchor="middle">10 · 结果回灌，继续推理</text>
+
+  <line x1="636" y1="596" x2="364" y2="596" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#agent-seq-return)"/>
+  <text x="500" y="588" class="mono" text-anchor="middle">11 · Final Answer + Citations</text>
+
+  <line x1="356" y1="640" x2="104" y2="640" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#agent-seq-accent)"/>
+  <text x="230" y="632" class="mono" text-anchor="middle" fill="#eb6c36">12 · 校验、持久化并返回</text>
+
+  <rect x="40" y="124" width="120" height="40" rx="6" fill="rgba(79,93,117,.08)" stroke="#7a8399"/>
+  <text x="100" y="149" class="name" text-anchor="middle">用户 / 入口</text>
+
+  <rect x="288" y="124" width="144" height="40" rx="6" fill="rgba(235,108,54,.08)" stroke="#eb6c36"/>
+  <text x="360" y="149" class="name" text-anchor="middle">Agent Runtime</text>
+
+  <rect x="580" y="124" width="120" height="40" rx="6" fill="#fff" stroke="#2d3142"/>
+  <text x="640" y="149" class="name" text-anchor="middle">模型</text>
+
+  <rect x="824" y="124" width="152" height="40" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="900" y="149" class="name" text-anchor="middle">Knowledge Access</text>
+
+  <rect x="1080" y="124" width="160" height="40" rx="6" fill="#fff" stroke="#2e5aa8"/>
+  <text x="1160" y="149" class="name" text-anchor="middle">Tool / MCP</text>
+
+  <text x="296" y="692" class="mono">每一轮：写入事件与必要 Checkpoint · 更新 Token / Cost / Time · 检查取消、重复调用与停止条件</text>
+</svg>
+</body>
+</html>

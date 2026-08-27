@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>不同部署，共用一套 Agent Runtime 语义</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font-family:'Geist','PingFang SC','Noto Sans CJK SC',sans-serif}
+    svg{display:block;width:1280px;height:720px}
+    .title{font:600 28px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .name{font:600 16px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .note{font:400 12px 'Geist','PingFang SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.04em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="unified-runtime-title unified-runtime-desc">
+  <title id="unified-runtime-title">不同部署，共用一套 Agent Runtime 语义</title>
+  <desc id="unified-runtime-desc">本地、服务端和混合部署使用不同基础设施，但都映射到统一的 Agent Runtime 处理语义，并由 Runtime 连接模型提供商与工具服务；同类数据只设一个权威存储。</desc>
+  <defs>
+    <marker id="runtime-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="runtime-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="runtime-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+
+  <text x="40" y="44" class="mono">ARCHITECTURE · ONE RUNTIME CONTRACT</text>
+  <text x="40" y="80" class="title">不同部署，共用一套 Agent Runtime 语义</text>
+  <text x="40" y="108" class="note">部署适配器负责基础设施差异，Runtime 保持持久化、恢复、装配与回写的统一契约。</text>
+
+  <rect x="40" y="148" width="328" height="448" rx="8" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.12)"/>
+  <rect x="56" y="140" width="136" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="124" y="152" class="mono" text-anchor="middle">DEPLOYMENT ADAPTERS</text>
+  <rect x="408" y="148" width="432" height="448" rx="8" fill="rgba(235,108,54,.03)" stroke="rgba(235,108,54,.28)" stroke-dasharray="4,4"/>
+  <rect x="424" y="140" width="120" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="484" y="152" class="mono" text-anchor="middle">RUNTIME CONTRACT</text>
+  <rect x="880" y="148" width="360" height="448" rx="8" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.12)"/>
+  <rect x="896" y="140" width="120" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="956" y="152" class="mono" text-anchor="middle">EXTERNAL SERVICES</text>
+
+  <path d="M328 228 H376 Q384 228 384 236 V292 Q384 300 392 300 H456" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#runtime-arrow)"/>
+  <line x1="328" y1="372" x2="456" y2="372" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#runtime-arrow)"/>
+  <path d="M328 516 H376 Q384 516 384 508 V452 Q384 444 392 444 H456" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#runtime-arrow)"/>
+  <line x1="792" y1="320" x2="952" y2="320" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#runtime-link)"/>
+  <line x1="792" y1="424" x2="952" y2="424" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#runtime-link)"/>
+
+  <rect x="348" y="344" width="88" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="392" y="356" class="mono" text-anchor="middle">MAP RUNTIME</text>
+  <rect x="828" y="292" width="88" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="872" y="304" class="mono" text-anchor="middle" fill="#2e5aa8">MODEL API</text>
+  <rect x="828" y="396" width="88" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="872" y="408" class="mono" text-anchor="middle" fill="#2e5aa8">MCP / TOOL</text>
+
+  <rect x="72" y="180" width="256" height="96" rx="8" fill="#fff" stroke="#2d3142"/>
+  <text x="200" y="208" class="name" text-anchor="middle">本地 Agent</text>
+  <text x="200" y="236" class="mono" text-anchor="middle">SQLITE / FILESYSTEM</text>
+  <text x="200" y="256" class="mono" text-anchor="middle">IN-PROCESS</text>
+
+  <rect x="72" y="324" width="256" height="96" rx="8" fill="#fff" stroke="#2d3142"/>
+  <text x="200" y="352" class="name" text-anchor="middle">服务端 Agent</text>
+  <text x="200" y="380" class="mono" text-anchor="middle">POSTGRESQL / OBJECT STORE</text>
+  <text x="200" y="400" class="mono" text-anchor="middle">REDIS</text>
+
+  <rect x="72" y="468" width="256" height="96" rx="8" fill="rgba(45,49,66,.04)" stroke="#4f5d75"/>
+  <text x="200" y="496" class="name" text-anchor="middle">混合 Agent</text>
+  <text x="200" y="524" class="mono" text-anchor="middle">ONE SOURCE OF TRUTH</text>
+  <text x="200" y="544" class="mono" text-anchor="middle">VERSIONED SYNC</text>
+
+  <rect x="456" y="248" width="336" height="248" rx="8" fill="rgba(235,108,54,.08)" stroke="#eb6c36" stroke-width="1.2"/>
+  <rect x="472" y="264" width="72" height="16" rx="4" fill="rgba(235,108,54,.14)"/>
+  <text x="508" y="276" class="mono" text-anchor="middle" fill="#eb6c36">FOCAL</text>
+  <text x="624" y="320" class="name" text-anchor="middle">Unified Agent Runtime</text>
+  <line x1="488" y1="344" x2="760" y2="344" stroke="rgba(45,49,66,.16)"/>
+  <text x="624" y="372" class="mono" text-anchor="middle">PERSIST → RESTORE</text>
+  <text x="624" y="396" class="mono" text-anchor="middle">RECALL → ASSEMBLE</text>
+  <text x="624" y="420" class="mono" text-anchor="middle">BUDGET → REDUCE</text>
+  <text x="624" y="444" class="mono" text-anchor="middle">INVOKE → WRITE BACK</text>
+  <text x="624" y="476" class="note" text-anchor="middle">同一顺序 · 同一失败语义 · 同一可观测边界</text>
+
+  <rect x="952" y="276" width="240" height="88" rx="8" fill="#fff" stroke="#2e5aa8"/>
+  <text x="1072" y="304" class="name" text-anchor="middle">Model Provider</text>
+  <text x="1072" y="328" class="mono" text-anchor="middle">CHAT / RESPONSES</text>
+  <text x="1072" y="348" class="mono" text-anchor="middle">INFERENCE</text>
+
+  <rect x="952" y="380" width="240" height="88" rx="8" fill="#fff" stroke="#2e5aa8"/>
+  <text x="1072" y="412" class="name" text-anchor="middle">MCP / Tool Service</text>
+  <text x="1072" y="440" class="mono" text-anchor="middle">SCHEMA / CALL / RESULT</text>
+
+  <line x1="40" y1="624" x2="1240" y2="624" stroke="rgba(45,49,66,.16)"/>
+  <text x="40" y="656" class="name" fill="#eb6c36">基础设施不同，处理语义相同</text>
+  <text x="416" y="656" class="note">同类数据只设一个权威存储；同步传递版本，不制造客户端与服务端双写。</text>
+  <text x="40" y="684" class="mono">DEPLOYMENT CHANGES ADAPTERS · RUNTIME CONTRACT STAYS STABLE · NO DUAL WRITE</text>
+</svg>
+</body>
+</html>

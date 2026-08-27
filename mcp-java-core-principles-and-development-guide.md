@@ -177,7 +177,7 @@ Server 返回类似下面的 Tool 定义：
 
 ```json
 {
-  "name": "search_documents",
+    "name": "search_documents",
   "description": "按照关键词检索研发知识库",
   "inputSchema": {
     "type": "object",
@@ -582,7 +582,7 @@ Server 不会把半成品当最终结果，而是返回：
     "inputRequests": {
       "confirm": {
         "method": "elicitation/create",
-        "params": {
+  "params": {
           "mode": "form",
           "message": "请确认是否执行高成本检索"
         }
@@ -712,29 +712,29 @@ side effect:
 ### 6.2 Maven 依赖
 
 ```xml
-<properties>
+    <properties>
     <maven.compiler.release>17</maven.compiler.release>
-    <mcp.version>2.0.1</mcp.version>
-</properties>
+        <mcp.version>2.0.1</mcp.version>
+    </properties>
 
-<dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.modelcontextprotocol.sdk</groupId>
+                <artifactId>mcp-bom</artifactId>
+                <version>${mcp.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.modelcontextprotocol.sdk</groupId>
-            <artifactId>mcp-bom</artifactId>
-            <version>${mcp.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
+            <artifactId>mcp</artifactId>
         </dependency>
     </dependencies>
-</dependencyManagement>
-
-<dependencies>
-    <dependency>
-        <groupId>io.modelcontextprotocol.sdk</groupId>
-        <artifactId>mcp</artifactId>
-    </dependency>
-</dependencies>
 ```
 
 
@@ -766,7 +766,7 @@ public final class KnowledgeTools {
                 "additionalProperties", false);
 
         var outputSchema = Map.<String, Object>of(
-                "type", "object",
+                        "type", "object",
                 "properties", Map.of(
                         "documentId", Map.of("type", "string"),
                         "title", Map.of("type", "string")),
@@ -785,7 +785,7 @@ public final class KnowledgeTools {
                         return McpSchema.CallToolResult.builder()
                                 .addTextContent("query 必须为 1～200 个字符")
                                 .isError(true)
-                                .build();
+                .build();
                     }
 
                     // 实际项目中在这里调用 Service、数据库或远程 API。
@@ -797,8 +797,8 @@ public final class KnowledgeTools {
                             .addTextContent("找到文档 KB-42：支付超时事故复盘")
                             .structuredContent(result)
                             .isError(false)
-                            .build();
-                });
+                    .build();
+        });
     }
 }
 ```
@@ -880,9 +880,9 @@ public final class KnowledgeMcpServer {
         }
         finally {
             server.closeGracefully();
+            }
         }
     }
-}
 ```
 
 这里最重要的不是 Builder 语法，而是注册关系：

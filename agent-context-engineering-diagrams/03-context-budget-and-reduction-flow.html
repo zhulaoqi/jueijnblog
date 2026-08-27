@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>预算超限后的逐级缩减与重新计数</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font-family:'Geist','PingFang SC','Noto Sans CJK SC',sans-serif}
+    svg{display:block;width:1280px;height:720px}
+    .title{font:600 28px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .name{font:600 16px 'Geist','PingFang SC',sans-serif;fill:#2d3142}
+    .note{font:400 12px 'Geist','PingFang SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.04em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="budget-flow-title budget-flow-desc">
+  <title id="budget-flow-title">预算超限后的逐级缩减与重新计数</title>
+  <desc id="budget-flow-desc">候选上下文计算预计输入令牌后判断是否满足预算；满足则调用模型，超限则按顺序应用下一层 Reducer 并重新计数，无可用 Reducer 时停止或切换更大模型。</desc>
+  <defs>
+    <marker id="budget-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="budget-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="budget-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="1280" height="720" fill="#f5f5f5"/>
+
+  <text x="40" y="44" class="mono">FLOWCHART · INPUT BUDGET CONTROL LOOP</text>
+  <text x="40" y="80" class="title">预算超限后的逐级缩减与重新计数</text>
+  <text x="40" y="108" class="note">每次缩减后都回到同一计数步骤；只有预计真正发给模型的内容进入 Projected Tokens。</text>
+
+  <line x1="640" y1="188" x2="640" y2="216" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#budget-arrow)"/>
+  <line x1="640" y1="272" x2="640" y2="288" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#budget-arrow)"/>
+  <line x1="752" y1="336" x2="900" y2="336" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#budget-link)"/>
+  <line x1="640" y1="384" x2="640" y2="416" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#budget-arrow)"/>
+  <line x1="528" y1="464" x2="448" y2="464" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#budget-arrow)"/>
+  <path d="M288 400 V252 Q288 244 296 244 H492" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#budget-arrow)"/>
+  <line x1="640" y1="512" x2="640" y2="560" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#budget-arrow)"/>
+
+  <rect x="808" y="304" width="40" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="828" y="316" class="mono" text-anchor="middle" fill="#2e5aa8">YES</text>
+  <rect x="652" y="392" width="40" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="672" y="404" class="mono" text-anchor="middle">NO</text>
+  <rect x="468" y="436" width="40" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="488" y="448" class="mono" text-anchor="middle">YES</text>
+  <rect x="300" y="216" width="112" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="356" y="228" class="mono" text-anchor="middle">RECOUNT TOKENS</text>
+  <rect x="652" y="528" width="40" height="16" rx="4" fill="#f5f5f5"/>
+  <text x="672" y="540" class="mono" text-anchor="middle">NO</text>
+
+  <rect x="492" y="132" width="296" height="56" rx="20" fill="#fff" stroke="#2d3142"/>
+  <text x="640" y="164" class="name" text-anchor="middle">Candidate Context</text>
+
+  <rect x="492" y="216" width="296" height="56" rx="8" fill="#fff" stroke="#2d3142"/>
+  <text x="640" y="244" class="name" text-anchor="middle">计算 Projected Tokens</text>
+  <text x="640" y="264" class="mono" text-anchor="middle">PLANNED MODEL INPUT ONLY</text>
+
+  <polygon points="640,288 752,336 640,384 528,336" fill="rgba(235,108,54,.08)" stroke="#eb6c36" stroke-width="1.2"/>
+  <text x="640" y="332" class="name" text-anchor="middle">是否在 Input</text>
+  <text x="640" y="352" class="name" text-anchor="middle">Budget 内？</text>
+
+  <rect x="900" y="296" width="240" height="80" rx="20" fill="#fff" stroke="#2e5aa8"/>
+  <text x="1020" y="332" class="name" text-anchor="middle">Model Call</text>
+  <text x="1020" y="352" class="mono" text-anchor="middle">SEND MINIMUM</text>
+  <text x="1020" y="368" class="mono" text-anchor="middle">WORKING SET</text>
+
+  <polygon points="640,416 752,464 640,512 528,464" fill="#fff" stroke="#2d3142"/>
+  <text x="640" y="460" class="name" text-anchor="middle">是否还有下一层</text>
+  <text x="640" y="480" class="name" text-anchor="middle">Reducer？</text>
+
+  <rect x="104" y="400" width="344" height="144" rx="8" fill="rgba(235,108,54,.05)" stroke="rgba(235,108,54,.64)"/>
+  <text x="276" y="428" class="name" text-anchor="middle">应用下一层 Reducer</text>
+  <text x="128" y="456" class="mono">① PRUNE</text>
+  <text x="128" y="480" class="mono">② ARTIFACT EXTERNALIZE</text>
+  <text x="128" y="504" class="mono">③ SUMMARIZE CLOSED HISTORY</text>
+  <text x="128" y="528" class="mono">④ CHECKPOINT + COMPACTION</text>
+
+  <rect x="500" y="560" width="280" height="72" rx="20" fill="rgba(45,49,66,.04)" stroke="#4f5d75"/>
+  <text x="640" y="588" class="name" text-anchor="middle">Stop / Switch Larger Model</text>
+  <text x="640" y="608" class="mono" text-anchor="middle">FAIL EXPLICITLY</text>
+  <text x="640" y="624" class="mono" text-anchor="middle">OR CHANGE CAPACITY</text>
+
+  <line x1="40" y1="640" x2="1240" y2="640" stroke="rgba(45,49,66,.16)"/>
+  <text x="40" y="664" class="mono">INPUT BUDGET = PROVIDER INPUT LIMIT  OR  CONTEXT WINDOW − OUTPUT RESERVE − SAFETY MARGIN</text>
+  <text x="40" y="688" class="mono">TOOL SCHEMA = CURRENT INPUT · TOOL CALL = CURRENT OUTPUT → NEXT INPUT · TOOL RESULT COUNTS ONLY WHEN SENT NEXT ROUND</text>
+</svg>
+</body>
+</html>
