@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Java 实现栈与当前规范的版本差</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font:400 16px/1.4 'Geist','PingFang SC','Noto Sans CJK SC',system-ui,sans-serif}svg{display:block;width:960px;height:600px}
+    .name{font:600 16px 'Geist','PingFang SC','Noto Sans CJK SC',sans-serif;fill:#2d3142}
+    .note{font:400 12px 'Geist','PingFang SC','Noto Sans CJK SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.06em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="06-java-version-gap-title 06-java-version-gap-desc">
+  <title id="06-java-version-gap-title">Java 实现栈与当前规范的版本差</title>
+  <desc id="06-java-version-gap-desc">应用依赖 Spring AI 2.0.1 与 MCP Java SDK 2.0.x，实际协议基线是 2025-11-25；2026-07-28 是外部迁移目标，Spring AI STATELESS 仅表示部署模式。</desc>
+  <defs>
+    <marker id="java-version-gap-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="java-version-gap-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="java-version-gap-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="960" height="600" fill="#f5f5f5"/>
+  <text x="40" y="52" class="mono">LAYER STACK · VERIFIED DEPENDENCY BASELINE</text>
+  <text x="40" y="88" font-family="'Instrument Serif',serif" font-size="28" fill="#2d3142">能运行，不等于已实现最新协议</text>
+
+  <line x1="80" y1="152" x2="80" y2="456" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#java-version-gap-arrow)"/>
+  <text x="64" y="152" class="mono" text-anchor="end">应用</text>
+  <text x="64" y="456" class="mono" text-anchor="end">协议</text>
+  <line x1="720" y1="420" x2="784" y2="420" stroke="#eb6c36" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#java-version-gap-arrow-accent)"/>
+  <rect x="728" y="396" width="40" height="12" rx="4" fill="#f5f5f5"/><text x="748" y="404" class="mono" text-anchor="middle">迁移</text>
+
+  <g>
+    <rect x="120" y="136" width="600" height="80" rx="8" fill="#fff" stroke="rgba(45,49,66,.18)"/>
+    <text x="144" y="168" class="mono">L4 · APPLICATION</text>
+    <text x="144" y="196" class="name">研发知识库应用</text>
+    <text x="696" y="184" class="note" text-anchor="end">业务代码与领域能力</text>
+  </g>
+  <g>
+    <rect x="120" y="216" width="600" height="80" fill="rgba(45,49,66,.025)" stroke="rgba(45,49,66,.18)"/>
+    <text x="144" y="248" class="mono">L3 · FRAMEWORK</text>
+    <text x="144" y="276" class="name">Spring AI 2.0.1</text>
+    <text x="696" y="248" class="note" text-anchor="end">管理 Java SDK 2.0.0</text>
+    <text x="696" y="276" class="mono" text-anchor="end">STATELESS = 部署模式</text>
+  </g>
+  <g>
+    <rect x="120" y="296" width="600" height="80" fill="#fff" stroke="rgba(45,49,66,.18)"/>
+    <text x="144" y="328" class="mono">L2 · SDK</text>
+    <text x="144" y="356" class="name">MCP Java SDK 2.0.x</text>
+    <text x="696" y="344" class="note" text-anchor="end">2.0.1 最新稳定；Spring 传递 2.0.0</text>
+  </g>
+  <g>
+    <rect x="120" y="376" width="600" height="80" rx="8" fill="rgba(235,108,54,.08)" stroke="#eb6c36" stroke-width="1.2"/>
+    <text x="144" y="408" class="mono">L1 · IMPLEMENTED PROTOCOL</text>
+    <text x="144" y="436" class="name">2025-11-25</text>
+    <text x="696" y="424" class="note" text-anchor="end">初始化、Session 与旧 exchange 语义</text>
+  </g>
+
+  <g>
+    <rect x="784" y="376" width="136" height="88" rx="8" fill="#fff" stroke="#eb6c36" stroke-dasharray="4,4"/>
+    <text x="852" y="404" class="mono" text-anchor="middle">TARGET ONLY</text>
+    <text x="852" y="428" class="name" text-anchor="middle">2026-07-28</text>
+    <text x="852" y="452" class="note" text-anchor="middle">当前 Java 未支持</text>
+  </g>
+
+  <line x1="120" y1="504" x2="920" y2="504" stroke="rgba(45,49,66,.14)"/>
+  <text x="120" y="536" class="name">协议“无状态”与 Spring AI STATELESS 是两件事。</text>
+  <text x="120" y="564" class="note">前者要求逐请求自包含；后者只是框架服务端的部署选择，不能证明协议版本。</text>
+</svg>
+</body>
+</html>

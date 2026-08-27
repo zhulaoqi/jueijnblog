@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Skill 在 Agent 系统中的定位</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#f5f5f5;color:#2d3142}
+    body{font:400 16px/1.4 'Geist','PingFang SC','Noto Sans CJK SC',system-ui,sans-serif}
+    svg{display:block;width:960px;height:600px}
+    .name{font:600 12px 'Geist','PingFang SC','Noto Sans CJK SC',sans-serif;fill:#2d3142}
+    .note{font:400 12px 'Geist','PingFang SC','Noto Sans CJK SC',sans-serif;fill:#4f5d75}
+    .mono{font:500 8px 'Geist Mono','PingFang SC',monospace;fill:#4f5d75;letter-spacing:.08em}
+  </style>
+</head>
+<body>
+<svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="01-skill-position-in-agent-system-title 01-skill-position-in-agent-system-desc">
+  <title id="01-skill-position-in-agent-system-title">Skill 在 Agent 系统中的定位</title>
+  <desc id="01-skill-position-in-agent-system-desc">Skill 位于 Agent Runtime 的按需行为层，为模型提供专业流程；Rules 提供常驻约束，Memory 和 RAG 提供事实，Tools 和 MCP 执行外部操作。</desc>
+  <defs>
+    <marker id="position-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#4f5d75"/></marker>
+    <marker id="position-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#eb6c36"/></marker>
+    <marker id="position-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2e5aa8"/></marker>
+  </defs>
+  <rect width="960" height="600" fill="#f5f5f5"/>
+
+  <text x="40" y="44" class="mono">ARCHITECTURE · AGENT CAPABILITY LAYERS</text>
+  <text x="40" y="80" font-family="'Instrument Serif',serif" font-size="28" fill="#2d3142">Skill 教 Agent 怎么做，Tool 让 Agent 真正去做</text>
+  <text x="40" y="104" class="note">Skill 是按需加载的专业流程，不是独立 Agent、长期记忆或外部执行接口。</text>
+
+  <rect x="184" y="136" width="552" height="352" rx="8" fill="rgba(45,49,66,.02)" stroke="rgba(45,49,66,.16)" stroke-width=".8"/>
+  <rect x="200" y="128" width="104" height="16" rx="2" fill="#f5f5f5"/>
+  <text x="252" y="140" class="mono" text-anchor="middle">AGENT RUNTIME</text>
+
+  <line x1="160" y1="264" x2="248" y2="264" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#position-arrow)"/>
+  <rect x="176" y="240" width="56" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="204" y="249" class="mono" text-anchor="middle">任务</text>
+
+  <path d="M400 188 V216 Q400 224 392 224 H348 Q340 224 340 240" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#position-arrow)"/>
+  <rect x="344" y="196" width="72" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="380" y="205" class="mono" text-anchor="middle">始终约束</text>
+
+  <line x1="484" y1="264" x2="248" y2="264" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#position-arrow-accent)"/>
+  <rect x="328" y="240" width="76" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="366" y="249" class="mono" text-anchor="middle">按需指令</text>
+
+  <path d="M376 312 V352 Q376 360 384 360 H432" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#position-arrow)"/>
+  <rect x="344" y="328" width="64" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="376" y="337" class="mono" text-anchor="middle">检索事实</text>
+
+  <path d="M376 312 V400 Q376 408 384 408 H600" fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#position-arrow-link)"/>
+  <rect x="448" y="384" width="80" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="488" y="393" class="mono" text-anchor="middle">执行操作</text>
+
+  <line x1="736" y1="408" x2="792" y2="408" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#position-arrow-link)"/>
+  <rect x="744" y="384" width="40" height="12" rx="2" fill="#f5f5f5"/>
+  <text x="764" y="393" class="mono" text-anchor="middle">API</text>
+
+  <rect x="40" y="228" width="120" height="72" rx="6" fill="rgba(79,93,117,.08)" stroke="#7a8399"/>
+  <rect x="56" y="240" width="32" height="12" rx="2" fill="transparent" stroke="rgba(79,93,117,.45)" stroke-width=".8"/>
+  <text x="72" y="249" class="mono" text-anchor="middle">INPUT</text>
+  <text x="100" y="272" class="name" text-anchor="middle">用户</text>
+
+  <rect x="248" y="224" width="128" height="88" rx="6" fill="#fff" stroke="#2d3142"/>
+  <rect x="264" y="236" width="32" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,.40)" stroke-width=".8"/>
+  <text x="280" y="245" class="mono" text-anchor="middle">MODEL</text>
+  <text x="312" y="272" class="name" text-anchor="middle">模型</text>
+  <text x="312" y="292" class="note" text-anchor="middle">理解 · 推理 · 决策</text>
+
+  <rect x="328" y="144" width="144" height="44" rx="6" fill="#fff" stroke="#4f5d75"/>
+  <text x="400" y="172" class="name" text-anchor="middle">Rules</text>
+
+  <rect x="484" y="220" width="176" height="88" rx="6" fill="rgba(235,108,54,.08)" stroke="#eb6c36" stroke-width="1.2"/>
+  <rect x="500" y="232" width="32" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,.50)" stroke-width=".8"/>
+  <text x="516" y="241" class="mono" text-anchor="middle">SKILL</text>
+  <text x="572" y="268" class="name" text-anchor="middle">专业流程与知识</text>
+  <text x="572" y="288" class="note" text-anchor="middle">SKILL.md · references · scripts</text>
+
+  <rect x="432" y="328" width="144" height="64" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="504" y="356" class="name" text-anchor="middle">Memory / RAG</text>
+  <text x="504" y="376" class="note" text-anchor="middle">状态与动态事实</text>
+
+  <rect x="600" y="376" width="136" height="64" rx="6" fill="#fff" stroke="#2e5aa8"/>
+  <text x="668" y="404" class="name" text-anchor="middle">Tools / MCP</text>
+  <text x="668" y="424" class="note" text-anchor="middle">外部执行能力</text>
+
+  <rect x="792" y="376" width="128" height="64" rx="6" fill="rgba(45,49,66,.05)" stroke="#4f5d75"/>
+  <text x="856" y="404" class="name" text-anchor="middle">业务系统</text>
+  <text x="856" y="424" class="note" text-anchor="middle">API · DB · Files</text>
+
+  <line x1="40" y1="528" x2="920" y2="528" stroke="rgba(45,49,66,.14)" stroke-width=".8"/>
+  <text x="40" y="560" class="mono">BOUNDARY</text>
+  <text x="128" y="560" class="note">Skill 改变模型的做事方法；权限、状态和副作用仍由 Runtime 与外部系统控制。</text>
+</svg>
+</body>
+</html>
